@@ -72,24 +72,32 @@ void menuChoiceReset()
 
 void menuChoiceInsert()
 {
+    printf("Insert Nmec: ");
+    printf("Insert Name: ");
+    //ull::insert(nmec,name);
 }
 
 /* ******************************************** */
 
 void menuChoiceQuery()
 {
+    printf("Insert Nmec to be found: ");
+    //ull::query(nmec);
 }
 
 /* ******************************************** */
 
 void menuChoiceRemove()
 {
+    printf("Insert Nmec to be removed: ");
+    //ull::remove(nmec);
 }
 
 /* ******************************************** */
 
 void menuChoicePrint()
 {
+    ull::print();
 }
 
 /* ******************************************** */
