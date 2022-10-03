@@ -31,6 +31,11 @@ int main(void)
         return EXIT_FAILURE;
     }
 
+    if (sigaction (SIGTERM, &sigact, NULL) < 0)
+    { 
+        perror ("Rotina de atendimento não instalada\n");
+        return EXIT_FAILURE;
+    }
     /* counting */
     printf("PID = %u\n", getpid());
     for (uint32_t i = 0; i < NTIMES; i++)
