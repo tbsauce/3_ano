@@ -1,6 +1,6 @@
 import pytest
 from cidades import SearchProblem, SearchTree, cidades_portugal
-
+"""
 @pytest.fixture
 def braga_faro():
     return SearchProblem(cidades_portugal,'Braga','Faro')
@@ -28,3 +28,4 @@ def test_exercicio10(braga_faro):
     assert t.search() == ['Braga', 'Porto', 'Agueda', 'Coimbra', 'Leiria', 'Santarem', 'Evora', 'Beja', 'Faro'] 
     assert t.cost == 706 
     assert t.length == 8 
+"""

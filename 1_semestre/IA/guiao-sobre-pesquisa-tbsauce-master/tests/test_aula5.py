@@ -1,6 +1,6 @@
 import pytest
 from cidades import SearchProblem, SearchTree, cidades_portugal
-
+"""
 @pytest.fixture
 def braga_faro():
     return SearchProblem(cidades_portugal,'Braga','Faro')
@@ -45,4 +45,4 @@ def test_exercicio16(braga_faro):
     t = SearchTree(braga_faro, 'uniform')
     t.search()
     assert round(t.average_depth,2) == 9.02
- 
+ """

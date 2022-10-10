@@ -2,7 +2,7 @@ import pytest
 from blocksworld import Floor, Holds, On, Free, a, b, c, d, e, Stack, Putdown, HandFree
 from strips import STRIPS
 from tree_search import SearchProblem, SearchTree
-
+"""
 @pytest.fixture
 def initial_state():
     return [ Floor(a), Floor(b), Floor(d), Holds(e), On(c,d), Free(a), Free(b), Free(c) ]
@@ -32,3 +32,4 @@ def test_exercicio2(initial_state, goal_state):
     t.search()
 
     assert str(t.plan) == "[Stack(e,b), Unstack(c,d), Putdown(c), Pickup(d), Stack(d,c), Unstack(e,b), Stack(e,d), Pickup(a), Stack(a,e)]"
+"""

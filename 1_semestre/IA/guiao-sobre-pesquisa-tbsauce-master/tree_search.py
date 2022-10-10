@@ -13,6 +13,7 @@
 #  Inteligência Artificial, 2014-2019
 
 from abc import ABC, abstractmethod
+from os import terminal_size
 
 # Dominios de pesquisa
 # Permitem calcular
@@ -62,13 +63,24 @@ class SearchProblem:
 
 # Nos de uma arvore de pesquisa
 class SearchNode:
-    def __init__(self,state,parent): 
+    #2.2 este teve de ser adiciomado em outras chamadas de SearchNode
+    def __init__(self,state,parent, depth): 
         self.state = state
         self.parent = parent
+        #2.2
+        self.depth = depth
+
     def __str__(self):
         return "no(" + str(self.state) + "," + str(self.parent) + ")"
     def __repr__(self):
         return str(self)
+    #2.1
+    def in_parent(self, newstate):
+        if(self.parent == None):
+            return False
+        if(self.parent.state == newstate):
+            return True
+        return self.parent.in_parent(newstate)
 
 # Arvores de pesquisa
 class SearchTree:
@@ -76,10 +88,19 @@ class SearchTree:
     # construtor
     def __init__(self,problem, strategy='breadth'): 
         self.problem = problem
-        root = SearchNode(problem.initial, None)
+        #adicionei
+        root = SearchNode(problem.initial, None, 0)
         self.open_nodes = [root]
         self.strategy = strategy
         self.solution = None
+        self.terminals = 0
+        self.non_terminals = 0
+
+    
+    #aqui tbm adicionei 2.3
+    @property
+    def length(self):
+        return self.solution.depth
 
     # obter o caminho (sequencia de estados) da raiz ate um no
     def get_path(self,node):
@@ -90,17 +111,22 @@ class SearchTree:
         return(path)
 
     # procurar a solucao
-    def search(self):
+    def search(self, limit = None):
         while self.open_nodes != []:
             node = self.open_nodes.pop(0)
-            if self.problem.goal_test(node.state):
+            #2.4
+            if self.problem.goal_test(node.state) and (limit==None  or limit >= len(self.get_path(node))-1):
                 self.solution = node
                 return self.get_path(node)
             lnewnodes = []
+
             for a in self.problem.domain.actions(node.state):
                 newstate = self.problem.domain.result(node.state,a)
-                newnode = SearchNode(newstate,node)
-                lnewnodes.append(newnode)
+                #2.1    
+                if not node.in_parent(newstate):
+                    newnode = SearchNode(newstate,node, node.depth+1) 
+                    lnewnodes.append(newnode)
+
             self.add_to_open(lnewnodes)
         return None
 

@@ -16,12 +16,12 @@ int main(void)
   if (ret == 0)
   {
     pid_t res = execl("./child","./child", NULL);
-    //adicionei isto para apanhar o erro
     if(res == -1)
     {
     	perror("Error launching child process");
     	exit(1);
     }
+    //adicionei isto para apanhar o erro
     printf("why doesn't this message show up?\n");
     return EXIT_FAILURE;
   }

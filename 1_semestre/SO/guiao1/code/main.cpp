@@ -72,25 +72,36 @@ void menuChoiceReset()
 
 void menuChoiceInsert()
 {
-    printf("Insert Nmec: ");
+    char name[129];
+    uint32_t nmec;
+
+    //ask for name
     printf("Insert Name: ");
-    //ull::insert(nmec,name);
+    std::cin.getline(name, 129);
+    //ask for nmec
+    printf("Insert Nmec: ");
+    scanf("%u%*c",&nmec);
+    ull::insert(nmec,name);
 }
 
 /* ******************************************** */
 
 void menuChoiceQuery()
 {
+    uint32_t nmec;
     printf("Insert Nmec to be found: ");
-    //ull::query(nmec);
+    scanf("%u%*c", &nmec);
+    printf("Name of %u: %s",nmec, ull::query(nmec));
 }
 
 /* ******************************************** */
 
 void menuChoiceRemove()
 {
+    uint32_t nmec;
     printf("Insert Nmec to be removed: ");
-    //ull::remove(nmec);
+    scanf("%u%*c", &nmec);
+    ull::remove(nmec);
 }
 
 /* ******************************************** */
@@ -104,6 +115,10 @@ void menuChoicePrint()
 
 void menuChoiceLoad()
 {
+    char file[129];
+    printf("Type the txt file: \n");
+    std::cin.getline(file, 129);
+    ull::load(file);
 }
 
 /* ******************************************** */
