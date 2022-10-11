@@ -34,6 +34,7 @@ int main(void) {
 
 
     semid = psemget(IPC_PRIVATE, 1, 0600 | IPC_CREAT | IPC_EXCL);
+    
     psem_up(semid, ACCESS);
 
     for(int i = 0; i < N; i++) {
