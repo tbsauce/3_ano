@@ -2,9 +2,12 @@ CXXFLAGS = -Wall -ggdb -pthread
 
 LDFLAGS = -lpthread -lm
 
-TARGETS = bounded_buffer_unsafe bounded_buffer_safe
+TARGETS = bounded_buffer_unsafe bounded_buffer_safe extra
 
 all:	$(TARGETS)
+
+extra:	Extra.o delays.o process.o utils.o
+		g++ -o $@ $^ $(LDFLAGS)
 
 bounded_buffer_unsafe:	fifo_unsafe.o bounded_buffer.o delays.o process.o utils.o
 		g++ -o $@ $^ $(LDFLAGS)
