@@ -1,10 +1,10 @@
 import pytest
 from cidades import SearchProblem, SearchTree, cidades_portugal
-"""
+
 @pytest.fixture
 def braga_faro():
     return SearchProblem(cidades_portugal,'Braga','Faro')
-
+"""
 def test_exercicio11(braga_faro):
     assert round(cidades_portugal.heuristic('Aveiro', 'Agueda'),2) == 18.38
     assert round(cidades_portugal.heuristic('Agueda', 'Aveiro'),2) == 18.38
