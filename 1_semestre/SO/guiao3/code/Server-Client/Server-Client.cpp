@@ -32,23 +32,14 @@
 /* ******************************************************* */
 
 /* The producer process */
-int producer(uint32_t id, uint32_t niter)
+int producer(uint32_t idp)
 {
-    /* make the job */
-    uint32_t i;
-    for (i = 0; i < niter; i++)
-    {
-        /* insert an item into the fifo */
-        uint32_t value = i * 10000 + id;
-        fifo::in(id, value);
 
-        /* do something else */
-        gaussianDelay(10, 5);
-
-        /* print them */
-            printf("\e[30;00mThe value %05u was produced by process P%02u!\e[0m\n", value, id);
-    }
-
+    id = getPendingRequest();               /*take a buffer out of fifo of pending requests */  
+    req = getRequestData(id);               /* take the request */
+    resp = produceResponse(req);            /*produce a response */
+    putResponseData(resp,id);               /*put response data on buffer */
+    signatureResponseIsAvailable(id);       /* so client is waked up */
     //printf("Producer %u is quiting\n", id);
     exit(EXIT_SUCCESS);
 }
@@ -56,44 +47,48 @@ int producer(uint32_t id, uint32_t niter)
 /* ******************************************************* */
 
 /* The consumer process */
-int consumer(uint32_t id, uint32_t niter)
+int consumer(uint32_t idc, char * data)
 {
-    /* make the job */
-    uint32_t i;
-    for (i = 0; i < niter; i++)
-    {
-        /* do something else */
-        gaussianDelay(10, 5);
-
-        /* retrieve an item from the fifo */
-        uint32_t pid, value;
-        fifo::out(&pid, &value);
-
-        /* print them */
-        if (value == 99999 || pid == 99 || (value % 100) != pid)
-            printf("\e[31;01mThe value %05u was produced by process P%02u!\e[0m\n",
-                    value, pid);
-        else
-            printf("\e[32;01mThe value %05u was produced by process P%02u!\e[0m\n",
-                    value, pid);
-    }
-
+    id = getFreeBuffer();                   /*take a buffer out of fifo of free buffers */
+    putRequestData(data,id);                /*put request data on buffer */
+    addNewPendingRequest(id);               /*add buffer to fifo of pending requests */
+    waitForResponse(id);                    /*wait (blocked) until a response is available */
+    resp = getResponseData (id);            /*take response out of buffer */
+    releaseBuffer(id);                      /*buffer is free, so add it to fifo of free buffers */
     //printf("Consumer %u is quiting\n", id);
     exit(EXIT_SUCCESS);
 }
 
+int getFreeBuffer(){
+    uint32_t id;
+    BUFFER temp;
+    fifo::out(fifo_FreeBuffers, &id, temp);
+    pool[id] = temp;
+    return id;
+}
+
+void putRequestData(char * text, uint32_t id ){
+    pool[id].text = text;
+}
+
+void addNewPendingRequest( uint32_t id){
+    fifo::in(fifo_PendingRequests, id);
+}
+
 /* ******************************************************* */
+
+/* create FIFO */
+    FIFO* fifo_FreeBuffers = fifo::create();
+
+    FIFO* fifo_PendingRequests = fifo::create();
+
+    BUFFER pool[10];
 
 /* main process: it starts the simulation and launches the producer and consumer processes */
 int main(int argc, char *argv[])
 {
     uint32_t nproducers = 1;   ///< number of consumers and producers
     uint32_t nconsumers = 1;   ///< number of consumers and producers
-
-    /* create the shared memory */
-    FIFO* fifo_FreeBuffers = fifo::create();
-
-    FIFO* fifo_PendingRequests = fifo::create();
 
     /* start random generator */
     srand(getpid());
@@ -105,8 +100,7 @@ int main(int argc, char *argv[])
     {
         if ((cpid[id] = pfork()) == 0)
         {
-            String line = 
-            consumer(id, niter);
+            consumer(id, data);
             exit(0);
         }
         else
@@ -122,7 +116,7 @@ int main(int argc, char *argv[])
     {
         if ((ppid[id] = pfork()) == 0)
         {
-            producer(id, niter);
+            producer(id);
             exit(0);
         }
         else

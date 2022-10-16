@@ -34,7 +34,7 @@ namespace fifo
     /* index of access, full and empty semaphores */
     #define ACCESS 0
     #define NITEMS 1
-    #define NSLOTS 2
+    #define NpoolS 2
 
     /* ************************************************* */
 
@@ -51,11 +51,11 @@ namespace fifo
         uint32_t i;
         for (i = 0; i < FIFOSZ; i++)
         {
-            fifo->slot[i].id = 99;
-            fifo->slot[i].text = "";
-            fifo->slot[i].num_characters = 99;
-            fifo->slot[i].num_digits = 99;
-            fifo->slot[i].num_letters = 99;
+            fifo->pool[i].id = i;
+            fifo->pool[i].text = "";
+            fifo->pool[i].num_characters = 99;
+            fifo->pool[i].num_digits = 99;
+            fifo->pool[i].num_letters = 99;
         }
         fifo->ii = fifo->ri = 0;
         fifo->cnt = 0;
@@ -66,7 +66,7 @@ namespace fifo
         /* init semaphores */
         for (i = 0; i < FIFOSZ; i++)
         {
-            psem_up(fifo->semid, NSLOTS);
+            psem_up(fifo->semid, NpoolS);
         }
         psem_up(fifo->semid, ACCESS);
 
@@ -88,16 +88,14 @@ namespace fifo
     /* ************************************************* */
 
     /* Insertion of a pair <id, value> into the FIFO  */
-    void in(FIFO* fifo, uint32_t id, char* text)
+    void in(FIFO * fifo, uint32_t id)
     {
         /* decrement emptiness, blocking if necessary, and lock access */
-        psem_down(fifo->semid, NSLOTS);
+        psem_down(fifo->semid, NpoolS);
         psem_down(fifo->semid, ACCESS);
 
         /* Insert pair */
-        fifo->slot[fifo->ii].text = text;
-        gaussianDelay(0.1, 0.5);
-        fifo->slot[fifo->ii].id = id;
+        fifo->pool[fifo->ii].id = id;
         fifo->ii = (fifo->ii + 1) % FIFOSZ;
         fifo->cnt++;
 
@@ -110,23 +108,26 @@ namespace fifo
 
     /* Retrieval of a pair <id, value> from the FIFO */
 
-    void out (FIFO* fifo, uint32_t * idp, uint32_t * valuep)
+    void out (FIFO * fifo, uint32_t * idp, BUFFER buf)
     {
         /* decrement fullness, blocking if necessary, and lock access */
         psem_down(fifo->semid, NITEMS);
         psem_down(fifo->semid, ACCESS);
 
         /* Retrieve pair */
-        *valuep = fifo->slot[fifo->ri].value;
-        fifo->slot[fifo->ri].value = 99999;
-        *idp = fifo->slot[fifo->ri].id;
-        fifo->slot[fifo->ri].id = 99;
+        buf = fifo->pool[fifo->ri]; 
+        fifo->pool[fifo->ri].text = "";
+        fifo->pool[fifo->ri].num_characters = 99;
+        fifo->pool[fifo->ri].num_digits = 99;
+        fifo->pool[fifo->ri].num_letters = 99;
+        *idp = fifo->pool[fifo->ri].id;
+        fifo->pool[fifo->ri].id = 99;
         fifo->ri = (fifo->ri + 1) % FIFOSZ;
         fifo->cnt--;
 
         /* unlock access and increment fullness */
         psem_up(fifo->semid, ACCESS);
-        psem_up(fifo->semid, NSLOTS);
+        psem_up(fifo->semid, NpoolS);
     }
 
     /* ************************************************* */

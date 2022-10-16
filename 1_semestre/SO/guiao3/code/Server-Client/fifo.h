@@ -38,7 +38,7 @@
         uint32_t ii;            ///< point of insertion
         uint32_t ri;            ///< point of retrieval
         uint32_t cnt;           ///< number of items stored
-        BUFFER slot[FIFOSZ];    ///< storage memory
+        BUFFER pool[FIFOSZ];    ///< storage memory
     };
 
     
@@ -58,7 +58,7 @@ namespace fifo
      * \param id id of the producer
      * \param value value to be stored
      */
-    void in(FIFO* fifo,uint32_t id, uint32_t value);
+    void in(FIFO * fifo,uint32_t id, uint32_t value);
 
     /**
      *  \brief Retrieval of a value from the FIFO.
@@ -66,7 +66,7 @@ namespace fifo
      * \param idp pointer to recipient where to store the producer id
      * \param valuep pointer to recipient where to store the value 
      */
-    void out(FIFO* fifo, uint32_t * idp, uint32_t  *valuep);
+    void out(FIFO * fifo, uint32_t * id, BUFFER buf);
 
 }
 #endif /* __SO_IPC_FIFO_ */
