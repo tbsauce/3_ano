@@ -16,57 +16,17 @@
 
 #include <stdint.h>
 
-/** \brief internal storage size of <em>FIFO memory</em> */
-    #define  FIFOSZ         5
-
-    /*
-     *  \brief Type of the shared data structure.
-     */
-    struct BUFFER
-    {
-        uint32_t id;            ///< id of the consumer
-        char* text;         ///< storage memory
-        int num_characters;
-        int num_letters;
-        int num_digits;
-    };
-
-    /* when using shared memory, the size of the data structure must be fixed */
-    struct FIFO
-    { 
-        int semid;              ///< syncronization semaphore array
-        uint32_t ii;            ///< point of insertion
-        uint32_t ri;            ///< point of retrieval
-        uint32_t cnt;           ///< number of items stored
-        BUFFER pool[FIFOSZ];    ///< storage memory
-    };
-
-    
-    
-
 namespace fifo
 {
     /** \brief create a FIFO in shared memory, initialize it, and return its id */
-    FIFO* create(void);
+    void create(void);
 
     /** \brief destroy the shared FIFO given id */
-    void destroy(FIFO* fifo);
+    void destroy(void);
 
-    /**
-     *  \brief Insertion of a value into the FIFO.
-     *
-     * \param id id of the producer
-     * \param value value to be stored
-     */
-    void in(FIFO * fifo,uint32_t id, uint32_t value);
+    void putRequestData(char * data, uint32_t id);
 
-    /**
-     *  \brief Retrieval of a value from the FIFO.
-     *
-     * \param idp pointer to recipient where to store the producer id
-     * \param valuep pointer to recipient where to store the value 
-     */
-    void out(FIFO * fifo, uint32_t * id, BUFFER buf);
+    uint32_t getFreeBuffer();
 
 }
 #endif /* __SO_IPC_FIFO_ */
