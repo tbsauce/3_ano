@@ -24,9 +24,21 @@ namespace fifo
     /** \brief destroy the shared FIFO given id */
     void destroy(void);
 
-    void putRequestData(char * data, uint32_t id);
+    /**
+     *  \brief Insertion of a value into the FIFO.
+     *
+     * \param id id of the producer
+     * \param value value to be stored
+     */
+    void in(uint32_t id, uint32_t value);
 
-    uint32_t getFreeBuffer();
+    /**
+     *  \brief Retrieval of a value from the FIFO.
+     *
+     * \param idp pointer to recipient where to store the producer id
+     * \param valuep pointer to recipient where to store the value 
+     */
+    void out(uint32_t * idp, uint32_t  *valuep);
 
 }
 #endif /* __SO_IPC_FIFO_ */

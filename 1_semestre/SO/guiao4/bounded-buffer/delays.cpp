@@ -1,12 +1,13 @@
 /*
  * \brief Generation of delays
  *
- * \author Artur Pereira <artur at ua.pt>
+ * \author (2016) Artur Pereira <artur at ua.pt>
  */
 
 #include "delays.h"
 
 #include <stdlib.h>
+#include <stdint.h>
 #include <math.h>
 #include <unistd.h>
 
@@ -14,11 +15,11 @@
  * A fixed, busy waiting delay
  */
 static double b, c;
-void bwDelay(int n)
+void bwDelay(uint32_t n)
 {
     b = c = 0.0;
     /* generate time delay */
-    for (int i = 0; i < n; i++)
+    for (uint32_t i = 0; i < n; i++)
     {
         b = cos(c + M_PI / 4);
         c = sqrt(fabs(b));
@@ -26,12 +27,21 @@ void bwDelay(int n)
 }
 
 /*
- * A busy random, busy waiting delay
+ * A busy waiting random delay 
  */
-void bwRandomDelay(int n)
+void bwRandomDelay(uint32_t n1, uint32_t n2)
 {
-    int k = (int)(((double)rand() / (RAND_MAX + 1.0)) * (n+1));
-    bwDelay(k);
+    static bool firstTime = true;
+    if (firstTime) {
+        srandom(getpid());
+        firstTime = false;
+    }
+
+    /* generate a random value in interval */
+    uint32_t n = floor(((double)rand() / (RAND_MAX + 1.0)) * (n2-n1+1)) + n1;
+
+    /* generate time delay */
+    bwDelay(n);
 }
 
 /*
