@@ -31,40 +31,33 @@ namespace fifo
 /** \brief internal storage size of <em>FIFO memory</em> */
     #define  FIFOSZ         5
 
-    /*
-     *  \brief Type of the shared data structure.
-     */
-    struct BUFFER
+    struct FIFO
     {
+        int semid;
+        uint32_t ii;            ///< point of insertion
+        uint32_t ri;            ///< point of retrieval
+        uint32_t cnt;           ///< number of items stored
+        uint32_t slot[FIFOSZ];       ///< storage memory                
+    };
+
+    struct ITEM
+    {
+        int semid;
         uint32_t id;            ///< id of the consumer
-        char* text;             ///< storage memory
+        char text[129];         ///< storage memory
         int len;
         int num_letters;
         int num_digits;
     };
 
-    /* when using shared memory, the size of the data structure must be fixed */
-    struct FIFO
-    { 
-        int semid;              ///< syncronization semaphore array
-        uint32_t ii;            ///< point of insertion
-        uint32_t ri;            ///< point of retrieval
-        uint32_t cnt;           ///< number of items stored
-        BUFFER slot[FIFOSZ];    ///< storage memory
-    }; 
+    struct SharedAll {
+        FIFO* fifos[2];
+        ITEM* pool[FIFOSZ];   
+    };
 
-    int FreeBuffersId = -1;
-    int PendingRequestsId =  -1;
-    int bufferId = -1;
-    int semBufId = -1;
+    uint32_t allId = -1; 
+    SharedAll* all = NULL;
 
-    FIFO* FreeBuffers = NULL;
-    FIFO* PendingRequests = NULL;
-
-    BUFFER*  pool;          ///< buffer
-    uint32_t iBuffer;            ///< point of insertion
-    uint32_t rBuffer;            ///< point of retrieval
-    uint32_t cntBuffer;          ///< number of items stored
 
     /* ************************************************* */
 
@@ -92,76 +85,58 @@ namespace fifo
 
     /* ************************************************* */
 
-    void inicialize_fifo(FIFO * fifo){
-        /* init fifo */
-        uint32_t i;
-        for (i = 0; i < FIFOSZ; i++)
-        {
-            fifo->slot[i].id = 99;
-            fifo->slot[i].text = "NULL";
-            fifo->slot[i].len = 0;
-            fifo->slot[i].num_letters = 0;
-            fifo->slot[i].num_digits = 0;
-        }
-        fifo->ii = fifo->ri = 0;
-        fifo->cnt = 0;
-
-        /* create access, full and empty semaphores */
-        fifo->semid = psemget(IPC_PRIVATE, 3, 0600 | IPC_CREAT | IPC_EXCL);
-
-        /* init semaphores */
-        for (i = 0; i < FIFOSZ; i++)
-        {
-            up(fifo->semid, NSLOTS);
-        }
-        up(fifo->semid, ACCESS);
-    }
-
     /* create a FIFO in shared memory, initialize it, and return its id */
     void create(void)
     {
-        /* create the shared memory */
-        FreeBuffersId = pshmget(IPC_PRIVATE, sizeof(FIFO), 0600 | IPC_CREAT | IPC_EXCL);
 
-        /*  attach shared memory to process addressing space */
-        FreeBuffers = (FIFO*)pshmat(FreeBuffersId, NULL, 0);
+        allId = pshmget(IPC_PRIVATE, sizeof(SharedAll), 0600 | IPC_CREAT | IPC_EXCL);
+        all = (SharedAll*)pshmat(allId, NULL, 0);
 
-        inicialize_fifo(FreeBuffers);
+        /* init fifo[0]*/
+        uint32_t i;
+        for (i = 0; i < FIFOSZ; i++)
+        {
+            all->fifos[0]->slot[i]= i;
+        }
+        all->fifos[0]->ii = all->fifos[0]->ri = 0;
+        all->fifos[0]->cnt = 0;
 
-        /* create the shared memory */
-        PendingRequestsId = pshmget(IPC_PRIVATE, sizeof(FIFO), 0600 | IPC_CREAT | IPC_EXCL);
-
-        /*  attach shared memory to process addressing space */
-        PendingRequests = (FIFO*)pshmat(PendingRequestsId, NULL, 0);
-
-        inicialize_fifo(PendingRequests);
-
-        /* create the shared memory */
-        bufferId = pshmget(IPC_PRIVATE, FIFOSZ * sizeof(FIFO), 0600 | IPC_CREAT | IPC_EXCL);
-
-        /*  attach shared memory to process addressing space */
-        pool = (BUFFER*)pshmat(bufferId, NULL, 0);
+        /* init fifo[1]*/
+        uint32_t i;
+        for (i = 0; i < FIFOSZ; i++)
+        {
+            all->fifos[1]->slot[i]= 99;
+        }
+        all->fifos[1]->ii = all->fifos[1]->ri = 0;
+        all->fifos[1]->cnt = 0;
 
         /* init BUFFER */
         uint32_t i;
         for (i = 0; i < FIFOSZ; i++)
         {
-            pool[i].id = 99;
-            pool[i].text = "NULL";
-            pool[i].len = 0;
-            pool[i].num_letters = 0;
-            pool[i].num_digits = 0;
+            all->pool[i]->id = i;
+            all->pool[i]->text = "NULL";
+            all->pool[i]->len = 0;
+            all->pool[i]->num_letters = 0;
+            all->pool[i]->num_digits = 0;
         }
 
         /* create access, full and empty semaphores */
-        semBufId = psemget(IPC_PRIVATE, 3, 0600 | IPC_CREAT | IPC_EXCL);
-
-        /* init semaphores */
-        for (i = 0; i < FIFOSZ; i++)
+        for (size_t i = 0; i < FIFOSZ; i++)
         {
-            up(semBufId, NSLOTS);
+            all->pool[i]->semid = psemget(IPC_PRIVATE, 1, 0600 | IPC_CREAT | IPC_EXCL);
+            up(all->pool[i]->semid, ACCESS);
         }
-        up(semBufId, ACCESS);
+
+        for (size_t i = 0; i < 2; i++)
+        {
+            all->fifos[i]->semid = psemget(IPC_PRIVATE, 3, 0600 | IPC_CREAT | IPC_EXCL);
+            for (i = 0; i < FIFOSZ; i++)
+            {
+                up(all->fifos[i]->semid, NSLOTS);
+            }
+            up(all->fifos[i]->semid, ACCESS);
+        }
 
     }
 
@@ -170,12 +145,10 @@ namespace fifo
     void destroy()
     {
         /* detach shared memory from process addressing space */
-        pshmdt(FreeBuffers);
-        pshmdt(PendingRequests);
+        pshmdt(all);
 
         /* destroy the shared memory */
-        pshmctl(FreeBuffersId, IPC_RMID, NULL);
-        pshmctl(PendingRequestsId, IPC_RMID, NULL);
+        pshmctl(allId, IPC_RMID, NULL);
     }
 
     /* ************************************************* */
@@ -185,9 +158,9 @@ namespace fifo
         down(FreeBuffers->semid, NITEMS);
         down(FreeBuffers->semid, ACCESS);
 
-        uint32_t id = FreeBuffers->slot[FreeBuffers->ri].id;
-        FreeBuffers->ri = (FreeBuffers->ri + 1) % FIFOSZ;
-        FreeBuffers-> cnt--;
+        uint32_t id = all->fifos[0]->slot[all->fifos[0]->ri].id;
+        all->ri = (all->ri + 1) % FIFOSZ;
+        all-> cnt--;
         
         up(FreeBuffers->semid, ACCESS);
         up(FreeBuffers->semid, NSLOTS);
