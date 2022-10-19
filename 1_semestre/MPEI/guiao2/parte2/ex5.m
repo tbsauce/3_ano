@@ -10,6 +10,10 @@ for i = 1 : length(p)
     aviao4(i)= sum(sum(rand(4, N) < p(i)) >= 2)/N;
 end
 
-crash2 = sum(aviao2)/100
-crash4 = sum(aviao4)/100
+crash2 = sum(aviao2)/100;
+crash4 = sum(aviao4)/100;
+
+fprintf("crash do aviao de 2 motores-> %f\n",crash2);
+fprintf("crash do aviao de 4 motores-> %f\n",crash4);
+
 

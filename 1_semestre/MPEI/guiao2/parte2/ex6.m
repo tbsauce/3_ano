@@ -10,7 +10,7 @@ for i = xi
     px(i+1) = sum(experiencias==i) / N;
 end
 
-px(7)
+fprintf("Aparecerem 7 defeituosas-> %f\n",px(7));
 
 
 %% b
@@ -19,4 +19,4 @@ n = 8000;
 l = n * p;
 k = 7;
 
-final = (l.^k/factorial(k))* exp(-1*l);
+final = (l.^k/factorial(k))* exp(-l);

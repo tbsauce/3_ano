@@ -1,18 +1,18 @@
 %% a
-l = 15;
+lamb = 15;
 
 k = 0;
 
-final = (l.^k/factorial(k))* exp(-1*l)
+final = (lamb.^k/factorial(k))* exp(-lamb)
 
 %% b
 
-l = 15;
+lamb = 15;
 
 k = 10;
 final =0;
 for i = 0 : k
-    final = final + (l.^k/factorial(k))* exp(-1*l);
+    final = final + (lamb.^i/factorial(i))* exp(-lamb);
 end
-
+ 
 final = 1 - final

@@ -21,6 +21,3 @@ stairs([ -1 xi], [0 cumsum(px)]);
 %iii
 max_2 = px(1) + px(2) + px(3)
 
-%% b
-
-
