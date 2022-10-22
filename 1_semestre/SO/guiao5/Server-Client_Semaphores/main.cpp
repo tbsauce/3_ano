@@ -19,13 +19,7 @@
 #include <ctype.h>
 
 #include  "sos.h"
-
-/*
- * TODO point
- * Uncomment the #include that applies
- */
-//#include  "thread.h"
-//#include  "process.h"
+#include  "process.h"
 #include  "utils.h"
 #include  "dbc.h"
 
@@ -229,12 +223,42 @@ int main(int argc, char *argv[])
      * Replace this comment with your code to launch the servers' processes/threads
      */
 
+    int ppid[nservers];   /* producers' ids */
+    printf("Launching %d producer processes, each performing %d iterations\n", nservers, niter);
+    for (uint32_t id = 0; id < nservers; id++)
+    {
+        if ((ppid[id] = pfork()) == 0)
+        {
+            server(id);
+            exit(0);
+        }
+        else
+        {
+            printf("- Producer process %d was launched\n", id);
+        }
+    }
+
     /* launching the clients */
 
     /* 
      * TODO point 
      * Replace this comment with your code to launch the clients' processes/threads 
      */
+    int cpid[nclients];   /* consumers' ids */
+    printf("Launching %d consumer processes, each performing %d iterations\n", nclients, niter);
+    for (uint32_t id = 0; id < nclients; id++)
+    {
+        if ((cpid[id] = pfork()) == 0)
+        {
+            client(id, niter);
+            exit(0);
+        }
+        else
+        {
+            printf("- Consumer process %d was launched\n", id);
+        }
+    }
+
 
     /* waiting for client to conclude */
 
@@ -242,6 +266,12 @@ int main(int argc, char *argv[])
      * TODO point
      * Replace this comment with your code to wait for clients termination
      */
+
+    for (uint32_t id = 0; id < nclients; id++)
+    {
+        pid_t pid = pwaitpid(cpid[id], NULL, 0);
+        printf("Consumer %d (process %d) has terminated\n", id, pid);
+    }
 
     /* waiting for servers to conclude */
 
@@ -252,6 +282,13 @@ int main(int argc, char *argv[])
      * So, they must be informed to finish their job.
      * This can be done sending to every one of them an empty request string.
      */
+
+    for (uint32_t id = 0; id < nservers; id++)
+    {   
+        
+        pid_t pid = pwaitpid(ppid[id], NULL, 0);
+        printf("Producer %d (process %d) has terminated\n", id, pid);
+    }
 
     /* quitting */
     return EXIT_SUCCESS;

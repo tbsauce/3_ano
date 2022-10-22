@@ -12,25 +12,22 @@
 #include <stdbool.h>
 #include <errno.h>
 #include <stdint.h>
-#include <sys/sem.h>
 
 #include <new>
 
 #include "sos.h"
-
 #include "dbc.h"
-
-/*
- * TODO point
- * Uncomment the #include that applies
- */
 #include "process.h"
-//#include "thread.h"
 
 namespace sos
 {
     /** \brief Number of transaction buffers */
     #define  NBUFFERS         5
+
+    /* index of access, full and empty semaphores */
+    #define ACCESS 0
+    #define NITEMS 1
+    #define NSLOTS 2
 
     /** \brief indexes for the fifos of free buffers and pending requests */
     enum { FREE_BUFFER=0, PENDING_REQUEST };
@@ -75,10 +72,7 @@ namespace sos
         
     };
 
-    /* index of access, full and empty semaphores */
-    #define ACCESS 0
-    #define NITEMS 1
-    #define NSLOTS 2
+    
 
     /** \brief pointer to shared area dynamically allocated */
     SharedArea *sharedArea = NULL;
