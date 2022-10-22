@@ -64,12 +64,15 @@ class SearchProblem:
 # Nos de uma arvore de pesquisa
 class SearchNode:
     #2.2 este teve de ser adiciomado em outras chamadas de SearchNode
-    def __init__(self,state,parent, depth, cost): 
+    def __init__(self,state,parent, depth, cost, heuristic): 
         self.state = state
         self.parent = parent
         #2.2
         self.depth = depth
+        #2.8
         self.cost = cost
+        #2.12
+        self.heuristic = heuristic
 
     def __str__(self):
         return "no(" + str(self.state) + "," + str(self.parent) + ")"
@@ -90,12 +93,13 @@ class SearchTree:
     def __init__(self,problem, strategy='breadth'): 
         self.problem = problem
         #adicionei
-        root = SearchNode(problem.initial, None, 0, 0)
+        root = SearchNode(problem.initial, None, 0, 0, self.problem.domain.heuristic(problem.initial, problem.goal))
         self.open_nodes = [root]
         self.strategy = strategy
         self.solution = None
         self.terminals = 0
         self.non_terminals = 0
+        self.highest_cost_nodes = [root]
 
     
     #aqui tbm adicionei 2.3
@@ -132,7 +136,6 @@ class SearchTree:
                 self.solution = node
                 return self.get_path(node)
             lnewnodes = []
-
             #2.5
             self.non_terminals += 1
             #2.4
@@ -142,9 +145,14 @@ class SearchTree:
                     #2.1    
                     if not node.in_parent(newstate):
                         #2.8
-                        newnode = SearchNode(newstate,node, node.depth+1, node.cost + self.problem.domain.cost(node.state, a)) 
+                        newnode = SearchNode(newstate,node, node.depth+1, node.cost + self.problem.domain.cost(node.state, a), self.problem.domain.heuristic(newstate, self.problem.goal)) 
                         lnewnodes.append(newnode)
-
+                        #2.15
+                        if(newnode.cost > self.highest_cost_nodes[0].cost):
+                            self.highest_cost_nodes = [newnode]
+                        elif(newnode.cost == self.highest_cost_nodes[0].cost):
+                            self.highest_cost_nodes.append(newnode)
+                        
                 self.add_to_open(lnewnodes)
 
         return None
@@ -159,6 +167,15 @@ class SearchTree:
         elif self.strategy == 'uniform':
             self.open_nodes.extend(lnewnodes)
             self.open_nodes.sort(key = lambda node: node.cost)
+        #2.13
+        elif self.strategy == 'greedy':
+            self.open_nodes.extend(lnewnodes)
+            self.open_nodes.sort(key = lambda node: node.heuristic)
+        #2.14
+        elif self.strategy == 'a*':
+            self.open_nodes.extend(lnewnodes)
+            self.open_nodes.sort(key = lambda node: node.heuristic + node.cost)
+
 
             
 
