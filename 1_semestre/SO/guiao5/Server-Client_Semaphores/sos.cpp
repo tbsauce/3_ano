@@ -127,7 +127,8 @@ namespace sos
                 sharedArea->fifo[j].semId =  psemget(IPC_PRIVATE, 3, 0600 | IPC_CREAT | IPC_EXCL);
                 for (size_t i = 0; i < NBUFFERS; i++)
                 {
-                        psem_up(sharedArea->fifo[i].semId, NSLOTS);
+                        psem_up(sharedArea->fifo[1].semId, NSLOTS);
+                        psem_up(sharedArea->fifo[0].semId, NITEMS);
                 }
 
                 psem_up(sharedArea->fifo[j].semId, ACCESS);
@@ -137,7 +138,6 @@ namespace sos
         for (size_t i = 0; i < NBUFFERS; i++)
         {
             sharedArea->pool[i].semId = psemget(IPC_PRIVATE, 1, 0600 | IPC_CREAT | IPC_EXCL);
-            psem_up(sharedArea->pool[i].semId, ACCESS);
         }
         
         
@@ -155,12 +155,12 @@ namespace sos
          * TODO point
          * Destroy synchronization elements
          */
-        // psemctl(sharedArea->fifo[0].semId, NULL, IPC_RMID);
-        // psemctl(sharedArea->fifo[1].semId, NULL, IPC_RMID);
-        // for (size_t i = 0; i < NBUFFERS; i++)
-        // {
-        //     pshmctl(sharedArea->pool[i].semId, NULL , IPC_RMID);
-        // }
+        psemctl(sharedArea->fifo[0].semId, 0, IPC_RMID, NULL);
+        psemctl(sharedArea->fifo[1].semId, 0, IPC_RMID, NULL);
+        for (size_t i = 0; i < NBUFFERS; i++)
+        {
+            psemctl(sharedArea->pool[i].semId, 0 , IPC_RMID, NULL);
+        }
 
         /* 
          * TODO point
@@ -191,9 +191,10 @@ namespace sos
          * Replace with your code, 
          * avoiding race conditions and busy waiting
          */
+
         psem_down(sharedArea->fifo[idx].semId, NSLOTS);
         psem_down(sharedArea->fifo[idx].semId, ACCESS);
-
+        
         sharedArea->fifo[idx].tokens[sharedArea->fifo[idx].ii] = token;
         sharedArea->fifo[idx].ii = (sharedArea->fifo[idx].ii + 1) % NBUFFERS;
         sharedArea->fifo[idx].cnt++;
@@ -228,10 +229,10 @@ namespace sos
         sharedArea->fifo[idx].ri = (sharedArea->fifo[idx].ri + 1) % NBUFFERS;
         sharedArea->fifo[idx].cnt--;
 
-        return token;
-
         psem_up(sharedArea->fifo[idx].semId, ACCESS);
         psem_up(sharedArea->fifo[idx].semId, NSLOTS);
+
+        return token;
 
     }
 
@@ -267,6 +268,7 @@ namespace sos
          * Replace with your code, 
          */
         
+        printf("%s\n", data);
         *(sharedArea->pool[token].req) = *data;
 
     }
@@ -342,6 +344,7 @@ namespace sos
          * TODO point
          * Replace with your code, 
          */
+
         fifoIn(FREE_BUFFER, token);
     }
 

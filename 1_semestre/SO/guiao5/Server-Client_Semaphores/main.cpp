@@ -122,6 +122,7 @@ fprintf(stderr, "%s(id: %u, req: \"%s\", ...)\n", __FUNCTION__, id, req);
 #endif
 
     uint32_t token = sos::getFreeBuffer();
+    printf("%dassssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss\n", token);
     sos::putRequestData(token, req);
     sos::submitRequest(token);
     sos::waitForResponse(token);
@@ -150,7 +151,6 @@ fprintf(stderr, "%s(id: %u, niter: %u, ...)\n", __FUNCTION__, id, niter);
     {
         /* generate a string */
         const char *req = generateString(id);
-
         /* call the service */
         sos::Response resp;
         callService(id, req, &resp);
@@ -167,8 +167,8 @@ fprintf(stderr, "%s(id: %u, niter: %u, ...)\n", __FUNCTION__, id, niter);
 int main(int argc, char *argv[])
 {
     uint32_t niter = 10; ///< number of iterations
-    uint32_t nservers = 1;   ///< number of servers
-    uint32_t nclients = 4;   ///< number of clients
+    uint32_t nservers = 10;   ///< number of servers
+    uint32_t nclients = 10;   ///< number of clients
 
     /* command line processing */
     int option;
@@ -237,6 +237,7 @@ int main(int argc, char *argv[])
             printf("- Producer process %d was launched\n", id);
         }
     }
+    
 
     /* launching the clients */
 
@@ -285,9 +286,8 @@ int main(int argc, char *argv[])
 
     for (uint32_t id = 0; id < nservers; id++)
     {   
-        
-        pid_t pid = pwaitpid(ppid[id], NULL, 0);
-        printf("Producer %d (process %d) has terminated\n", id, pid);
+        pkill(ppid[id], SIGTERM);
+        printf("Producer %d (process %d) has terminated\n", id, ppid[id]);
     }
 
     /* quitting */
