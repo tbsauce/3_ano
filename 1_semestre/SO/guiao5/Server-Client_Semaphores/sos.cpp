@@ -122,17 +122,20 @@ namespace sos
          * Init synchronization elements
          */
         //Fifo synchronization
-        for (size_t j = 0; j < 2; j++)
-        {
-                sharedArea->fifo[j].semId =  psemget(IPC_PRIVATE, 3, 0600 | IPC_CREAT | IPC_EXCL);
-                for (size_t i = 0; i < NBUFFERS; i++)
-                {
-                        psem_up(sharedArea->fifo[1].semId, NSLOTS);
-                        psem_up(sharedArea->fifo[0].semId, NITEMS);
-                }
 
-                psem_up(sharedArea->fifo[j].semId, ACCESS);
-        }
+            sharedArea->fifo[1].semId =  psemget(IPC_PRIVATE, 3, 0600 | IPC_CREAT | IPC_EXCL);
+            sharedArea->fifo[0].semId =  psemget(IPC_PRIVATE, 3, 0600 | IPC_CREAT | IPC_EXCL);
+
+            for (size_t i = 0; i < NBUFFERS; i++)
+            {
+                    psem_up(sharedArea->fifo[1].semId, NSLOTS);
+                    psem_up(sharedArea->fifo[0].semId, NITEMS);
+            }
+
+            psem_up(sharedArea->fifo[0].semId, ACCESS);
+            psem_up(sharedArea->fifo[1].semId, ACCESS);
+
+        
 
         //Buffer synchronization
         for (size_t i = 0; i < NBUFFERS; i++)
