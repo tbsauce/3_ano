@@ -4,11 +4,12 @@ from cidades import SearchProblem, SearchTree, cidades_portugal
 @pytest.fixture
 def braga_faro():
     return SearchProblem(cidades_portugal,'Braga','Faro')
-"""
+
 def test_exercicio11(braga_faro):
     assert round(cidades_portugal.heuristic('Aveiro', 'Agueda'),2) == 18.38
     assert round(cidades_portugal.heuristic('Agueda', 'Aveiro'),2) == 18.38
     assert round(cidades_portugal.heuristic('Aveiro', 'Lisboa'),2) == 218.87
+
 
 def test_exercicio12(braga_faro):
     t = SearchTree(braga_faro, 'depth')
@@ -45,4 +46,3 @@ def test_exercicio16(braga_faro):
     t = SearchTree(braga_faro, 'uniform')
     t.search()
     assert round(t.average_depth,2) == 9.02
- """
