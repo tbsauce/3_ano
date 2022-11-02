@@ -7,5 +7,5 @@ for i = 0 : k
     final = final + (lamb.^i/factorial(i))* exp(-lamb);
 end
 
-final
+fprintf("%d",final);
 
