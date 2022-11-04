@@ -1,7 +1,7 @@
 import pytest
 from semantic_network import *
 from tests.test_aula6 import sn_net
-"""
+
 def compare_decl_lists(l1,l2):
     l1_tuples = [str(d) for d in l1]
     l2_tuples = [str(d) for d in l2]
@@ -45,7 +45,7 @@ def test_exercicio12(sn_net):
 Declaration('descartes',Association('homem','altura',1.75)), \
 Declaration('simao',Association('homem','altura',1.85)), \
 Declaration('darwin',Association('homem','altura',1.75))] )
-
+"""
 def test_exercicio13(sn_net):
     assert compare_decl_lists(sn_net.query_down('vertebrado', 'altura'), [
 Declaration('descartes',Association('mamifero','altura',1.2)), \
