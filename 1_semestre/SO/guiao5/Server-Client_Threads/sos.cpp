@@ -16,18 +16,14 @@
 #include <new>
 
 #include "sos.h"
+
 #include "dbc.h"
-#include "process.h"
+#include "thread.h"
 
 namespace sos
 {
     /** \brief Number of transaction buffers */
     #define  NBUFFERS         5
-
-    /* index of access, full and empty semaphores */
-    #define ACCESS 0
-    #define NITEMS 1
-    #define NSLOTS 2
 
     /** \brief indexes for the fifos of free buffers and pending requests */
     enum { FREE_BUFFER=0, PENDING_REQUEST };
@@ -35,15 +31,17 @@ namespace sos
     /** \brief interaction buffer data type */
     struct BUFFER 
     {
-        int semId;
         char req[MAX_STRING_LEN+1];
         Response resp;
+        pthread_mutex_t access;
     };
 
     /** \brief the fifo data type to store indexes of buffers */
     struct FIFO
     {
-        int semId;
+        pthread_mutex_t access;
+        pthread_cond_t notFull;
+        pthread_cond_t notEmpty;
         uint32_t ii;               ///< point of insertion
         uint32_t ri;               ///< point of retrieval
         uint32_t cnt;              ///< number of items stored
@@ -61,14 +59,10 @@ namespace sos
 
         /* A fifo for tokens of free buffers and another for tokens with pending requests */
         FIFO fifo[2];
-        
     };
-
-    
 
     /** \brief pointer to shared area dynamically allocated */
     SharedArea *sharedArea = NULL;
-    uint32_t sharedId = -1;
 
 
     /* -------------------------------------------------------------------- */
@@ -84,8 +78,7 @@ namespace sos
 
         require(sharedArea == NULL, "Shared area must not exist");
 
-        sharedId = pshmget(IPC_PRIVATE, sizeof(sharedArea), 0600| IPC_CREAT | IPC_EXCL);
-        sharedArea = (SharedArea *)pshmat(sharedId, NULL, 0);
+        sharedArea = new SharedArea;
 
         /* init fifo 0 (free buffers) */
         FIFO *fifo = &sharedArea->fifo[FREE_BUFFER];
@@ -105,29 +98,17 @@ namespace sos
         fifo->ii = fifo->ri = 0;
         fifo->cnt = 0;
 
-        //Fifo synchronization
+        mutex_init(&sharedArea->fifo[FREE_BUFFER].access, NULL);
+        cond_init(&sharedArea->fifo[FREE_BUFFER].notEmpty, NULL);
+        cond_init(&sharedArea->fifo[FREE_BUFFER].notFull, NULL);
+        mutex_init(&sharedArea->fifo[PENDING_REQUEST].access, NULL);
+        cond_init(&sharedArea->fifo[PENDING_REQUEST].notEmpty, NULL);
+        cond_init(&sharedArea->fifo[PENDING_REQUEST].notFull, NULL);
 
-            sharedArea->fifo[1].semId =  psemget(IPC_PRIVATE, 3, 0600 | IPC_CREAT | IPC_EXCL);
-            sharedArea->fifo[0].semId =  psemget(IPC_PRIVATE, 3, 0600 | IPC_CREAT | IPC_EXCL);
-
-            for (size_t i = 0; i < NBUFFERS; i++)
-            {
-                    psem_up(sharedArea->fifo[1].semId, NSLOTS);
-                    psem_up(sharedArea->fifo[0].semId, NITEMS);
-            }
-
-            psem_up(sharedArea->fifo[0].semId, ACCESS);
-            psem_up(sharedArea->fifo[1].semId, ACCESS);
-
-        
-
-        //Buffer synchronization
-        for (size_t i = 0; i < NBUFFERS; i++)
+        for (uint32_t i = 0; i < NBUFFERS; i++)
         {
-            sharedArea->pool[i].semId = psemget(IPC_PRIVATE, 1, 0600 | IPC_CREAT | IPC_EXCL);
+                mutex_init(&sharedArea->pool[i].access, NULL);
         }
-        
-        
         
     }
 
@@ -138,15 +119,15 @@ namespace sos
     {
         require(sharedArea != NULL, "sharea area must be allocated");
 
-        psemctl(sharedArea->fifo[0].semId, 0, IPC_RMID, NULL);
-        psemctl(sharedArea->fifo[1].semId, 0, IPC_RMID, NULL);
-        for (size_t i = 0; i < NBUFFERS; i++)
-        {
-            psemctl(sharedArea->pool[i].semId, 0 , IPC_RMID, NULL);
-        }
+        /* 
+         * TODO point
+         * Destroy synchronization elements
+         */
 
-        pshmdt(sharedArea);
-        pshmctl(sharedId, IPC_RMID, NULL);
+        /* 
+         * TODO point
+        *  Destroy the shared memory
+        */
 
         /* nullify */
         sharedArea = NULL;
@@ -162,19 +143,22 @@ namespace sos
         fprintf(stderr, "%s(idx: %u, token: %u)\n", __FUNCTION__, idx, token);
 #endif
 
+        mutex_lock(&sharedArea->fifo[idx].access);
+
         require(idx == FREE_BUFFER or idx == PENDING_REQUEST, "idx is not valid");
         require(token < NBUFFERS, "token is not valid");
 
+        while (sharedArea->fifo[idx].cnt == NBUFFERS)
+        {
+                cond_wait(&sharedArea->fifo[idx].notFull, &sharedArea->fifo[idx].access);
+        }
 
-        psem_down(sharedArea->fifo[idx].semId, NSLOTS);
-        psem_down(sharedArea->fifo[idx].semId, ACCESS);
-        
         sharedArea->fifo[idx].tokens[sharedArea->fifo[idx].ii] = token;
         sharedArea->fifo[idx].ii = (sharedArea->fifo[idx].ii + 1) % NBUFFERS;
         sharedArea->fifo[idx].cnt++;
 
-        psem_up(sharedArea->fifo[idx].semId, ACCESS);
-        psem_up(sharedArea->fifo[idx].semId, NITEMS);
+        cond_broadcast(&sharedArea->fifo[idx].notEmpty);
+        mutex_unlock(&sharedArea->fifo[idx].access);
     }
 
     /* -------------------------------------------------------------------- */
@@ -187,22 +171,24 @@ namespace sos
         fprintf(stderr, "%s(idx: %u)\n", __FUNCTION__, idx);
 #endif
 
+        mutex_lock(&sharedArea->fifo[idx].access);
+
         require(idx == FREE_BUFFER or idx == PENDING_REQUEST, "idx is not valid");
 
-
-        psem_down(sharedArea->fifo[idx].semId, NITEMS);
-        psem_down(sharedArea->fifo[idx].semId , ACCESS);
+        while (sharedArea->fifo[idx].cnt == 0)
+        {
+                cond_wait(&sharedArea->fifo[idx].notEmpty, &sharedArea->fifo[idx].access);
+        }
 
         uint32_t token = sharedArea->fifo[idx].tokens[sharedArea->fifo[idx].ri];
+        //tirar depois quando tiver bem
         sharedArea->fifo[idx].tokens[sharedArea->fifo[idx].ri] = NBUFFERS;
         sharedArea->fifo[idx].ri = (sharedArea->fifo[idx].ri + 1) % NBUFFERS;
         sharedArea->fifo[idx].cnt--;
-
-        psem_up(sharedArea->fifo[idx].semId, ACCESS);
-        psem_up(sharedArea->fifo[idx].semId, NSLOTS);
-
+        
+        cond_broadcast(&sharedArea->fifo[idx].notFull);
+        mutex_unlock(&sharedArea->fifo[idx].access);
         return token;
-
     }
 
     /* -------------------------------------------------------------------- */
@@ -227,9 +213,9 @@ namespace sos
 
         require(token < NBUFFERS, "token is not valid");
         require(data != NULL, "data pointer can not be NULL");
-        
-        *(sharedArea->pool[token].req) = *data;
 
+
+        *(sharedArea->pool[token].req) = *data;
     }
 
     /* -------------------------------------------------------------------- */
@@ -255,8 +241,7 @@ namespace sos
 
         require(token < NBUFFERS, "token is not valid");
 
-        psem_down(sharedArea->pool[token].semId, ACCESS);
-
+        mutex_lock(&sharedArea->pool[token].access);
     }
 
     /* -------------------------------------------------------------------- */
@@ -271,7 +256,6 @@ namespace sos
         require(resp != NULL, "resp pointer can not be NULL");
 
         *resp = sharedArea->pool[token].resp;
-        
     }
 
     /* -------------------------------------------------------------------- */
@@ -311,7 +295,6 @@ namespace sos
         require(token < NBUFFERS, "token is not valid");
         require(data != NULL, "data pointer can not be NULL");
 
-
         data = sharedArea->pool[token].req;
 
     }
@@ -327,7 +310,6 @@ namespace sos
         require(token < NBUFFERS, "token is not valid");
         require(resp != NULL, "resp pointer can not be NULL");
 
-
         sharedArea->pool[token].resp = *resp;
 
     }
@@ -342,9 +324,7 @@ namespace sos
 
         require(token < NBUFFERS, "token is not valid");
 
-
-        psem_up(sharedArea->pool[token].semId, ACCESS);
-        
+        mutex_unlock(&sharedArea->pool[token].access);
     }
 
     /* -------------------------------------------------------------------- */
