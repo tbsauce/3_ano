@@ -41,8 +41,9 @@ def test_exercicio15(braga_faro):
     t.search()
     assert len(t.highest_cost_nodes) == 5
     assert [t.get_path(n) for n in t.highest_cost_nodes] == [['Braga', 'Porto', 'Agueda', 'Viseu', 'Castelo Branco', 'Santarem', 'Portalegre', 'Evora'], ['Braga', 'Guimaraes', 'Lamego', 'Viseu', 'Coimbra', 'Agueda', 'Aveiro', 'Figueira', 'Leiria', 'Santarem', 'Portalegre', 'Evora'], ['Braga', 'Guimaraes', 'Lamego', 'Viseu', 'Guarda', 'Castelo Branco', 'Santarem', 'Lisboa', 'Evora', 'Portalegre'], ['Braga', 'Porto', 'Agueda', 'Coimbra', 'Leiria', 'Castelo Branco', 'Santarem', 'Evora', 'Portalegre'], ['Braga', 'Porto', 'Aveiro', 'Figueira', 'Leiria', 'Coimbra', 'Agueda', 'Viseu', 'Guarda', 'Castelo Branco', 'Portalegre', 'Evora']]
-
+"""
 def test_exercicio16(braga_faro):
     t = SearchTree(braga_faro, 'uniform')
     t.search()
     assert round(t.average_depth,2) == 9.02
+"""

@@ -60,7 +60,7 @@
 /**
  *  \brief id verification test
  */
-#define check_valid_id(id) do { if(id > MAX_ID) { printf("\e[31;01m[%s, line %d, function %s] ERROR: invalid ID %u!\e[0m\n", __FILE__, __LINE__, __FUNCTION__, id); exit(EXIT_FAILURE); } } while(0)
+#define check_valid_id(id) do { if(id > MAX_ID and id != MAX_PATIENTS) { printf("\e[31;01m[%s, line %d, function %s] ERROR: invalid ID %u!\e[0m\n", __FILE__, __LINE__, __FUNCTION__, id); exit(EXIT_FAILURE); } } while(0)
 
 /**
  *  \brief priority verification test

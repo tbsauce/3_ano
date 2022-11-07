@@ -100,6 +100,7 @@ class SearchTree:
         self.terminals = 0
         self.non_terminals = 0
         self.highest_cost_nodes = [root]
+        self.plan = []
 
     
     #aqui tbm adicionei 2.3
@@ -117,6 +118,11 @@ class SearchTree:
     def cost(self):
         return self.solution.cost
 
+    #3.2
+    @property
+    def plan(self):
+        return self.plan
+
     # obter o caminho (sequencia de estados) da raiz ate um no
     def get_path(self,node):
         if node.parent == None:
@@ -132,7 +138,6 @@ class SearchTree:
             self.terminals = len(self.open_nodes)
             node = self.open_nodes.pop(0)
             if self.problem.goal_test(node.state):
-                
                 self.solution = node
                 return self.get_path(node)
             lnewnodes = []
