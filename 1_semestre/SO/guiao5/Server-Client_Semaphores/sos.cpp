@@ -270,7 +270,7 @@ namespace sos
         require(token < NBUFFERS, "token is not valid");
         require(resp != NULL, "resp pointer can not be NULL");
 
-        *resp = sharedArea->pool[token].resp;
+        resp = &sharedArea->pool[token].resp;
         
     }
 
@@ -312,7 +312,7 @@ namespace sos
         require(data != NULL, "data pointer can not be NULL");
 
 
-        data = sharedArea->pool[token].req;
+        *data = *sharedArea->pool[token].req;
 
     }
 

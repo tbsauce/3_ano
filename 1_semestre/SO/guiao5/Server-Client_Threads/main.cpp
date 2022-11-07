@@ -53,6 +53,11 @@ fprintf(stderr, "%s(id: %u)\n", __FUNCTION__, id);
     req[MAX_STRING_LEN] = '\0';
     uint32_t token = sos::getPendingRequest();
     sos::getRequestData(token, req);
+    if(req[0] == '\0')
+    {
+        printf("Producer Terminate\n");
+        pthread_exit(NULL);
+    }
     sos::Response resp;
     for (uint32_t i = 0; req[i] != '\0'; i++)
     {
@@ -249,19 +254,18 @@ int main(int argc, char *argv[])
 
     for (uint32_t i = 0; i < nclients; i++)
     {
-        printf("Acbou cliente %d\n", i);
+        printf("Cliente Acabou %d\n", i);
         pthread_join(clients_thread[i], NULL);
     }
 
     /* waiting for servers to conclude */
 
-    /* 
-     * TODO point
-     * Replace this comment with your code to wait for servers termination.
-     * Be aware that the servers are in a infinite loop processing requests.
-     * So, they must be informed to finish their job.
-     * This can be done sending to every one of them an empty request string.
-     */
+    for (uint32_t i = 0; i < nservers; i++)
+    {
+        uint32_t token = sos::getFreeBuffer();
+        sos::putRequestData(token, "\0");
+        sos::submitRequest(token);
+    }
 
     /* quitting */
     return EXIT_SUCCESS;

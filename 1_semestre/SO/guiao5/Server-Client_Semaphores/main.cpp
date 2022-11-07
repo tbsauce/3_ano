@@ -67,14 +67,6 @@ fprintf(stderr, "%s(id: %u)\n", __FUNCTION__, id);
 /* ******************************************************* */
 /* The server life cycle */
 
-/*
- * Possible TODO point
- * This function does not have the signature required by the pthread_create function.
- * Be aware of that if you are implementing concurrency using threads.
- * Do not change this server function. 
- * If you need it to have a different signature, create a wrapper function that calls this one.
- */
-
 void server(uint32_t id)
 {
 #ifdef __DEBUG__
@@ -122,7 +114,6 @@ fprintf(stderr, "%s(id: %u, req: \"%s\", ...)\n", __FUNCTION__, id, req);
 #endif
 
     uint32_t token = sos::getFreeBuffer();
-    printf("%dassssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss\n", token);
     sos::putRequestData(token, req);
     sos::submitRequest(token);
     sos::waitForResponse(token);
@@ -132,14 +123,6 @@ fprintf(stderr, "%s(id: %u, req: \"%s\", ...)\n", __FUNCTION__, id, req);
 
 /* ******************************************************* */
 /* The client life cycle */
-
-/* 
- * Possible TODO point
- * This function does not have the signature required by the pthread_create function.
- * Be aware of that if you are implementing concurrency using threads.
- * Do not change this client function. 
- * If you need it to have a different signature, create a wrapper function that calls this one.
- */
 
 void client(uint32_t id, uint32_t niter)
 {
@@ -218,11 +201,6 @@ int main(int argc, char *argv[])
 
     /* launching the servers */
 
-    /* 
-     * TODO point
-     * Replace this comment with your code to launch the servers' processes/threads
-     */
-
     int ppid[nservers];   /* producers' ids */
     printf("Launching %d producer processes, each performing %d iterations\n", nservers, niter);
     for (uint32_t id = 0; id < nservers; id++)
@@ -241,10 +219,6 @@ int main(int argc, char *argv[])
 
     /* launching the clients */
 
-    /* 
-     * TODO point 
-     * Replace this comment with your code to launch the clients' processes/threads 
-     */
     int cpid[nclients];   /* consumers' ids */
     printf("Launching %d consumer processes, each performing %d iterations\n", nclients, niter);
     for (uint32_t id = 0; id < nclients; id++)
@@ -263,11 +237,6 @@ int main(int argc, char *argv[])
 
     /* waiting for client to conclude */
 
-    /* 
-     * TODO point
-     * Replace this comment with your code to wait for clients termination
-     */
-
     for (uint32_t id = 0; id < nclients; id++)
     {
         pid_t pid = pwaitpid(cpid[id], NULL, 0);
@@ -275,14 +244,6 @@ int main(int argc, char *argv[])
     }
 
     /* waiting for servers to conclude */
-
-    /* 
-     * TODO point
-     * Replace this comment with your code to wait for servers termination.
-     * Be aware that the servers are in a infinite loop processing requests.
-     * So, they must be informed to finish their job.
-     * This can be done sending to every one of them an empty request string.
-     */
 
     for (uint32_t id = 0; id < nservers; id++)
     {   

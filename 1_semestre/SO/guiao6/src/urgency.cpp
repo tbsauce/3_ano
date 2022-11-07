@@ -89,6 +89,7 @@ void nurse_iteration()
    uint32_t patient = retrieve_pfifo(&hd->triage_queue);
    if(patient == MAX_PATIENTS)
    {
+      printf("Nurser Saiu\n");
       thread_exit(NULL);
    }
    check_valid_patient(patient);
@@ -119,6 +120,7 @@ void doctor_iteration()
    uint32_t patient = retrieve_pfifo(&hd->doctor_queue);
    if(patient == MAX_PATIENTS)
    {
+      printf("Doctor Saiu\n");
       thread_exit(NULL);
    }
    check_valid_patient(patient);
@@ -173,8 +175,6 @@ void patient_wait_end_of_consultation(int id)
 void patient_life(int id)
 {
    patient_goto_urgency(id);
-   // nurse_iteration();  // to be deleted in concurrent version
-   // doctor_iteration(); // to be deleted in concurrent version
    patient_wait_end_of_consultation(id);
    memset(&(hd->all_patients[id]), 0, sizeof(Patient)); // patient finished
 }
@@ -272,7 +272,7 @@ int main(int argc, char *argv[])
    //Join
    for (uint32_t i = 0; i < npatients; i++)
    {
-      printf("acabou %d\n", i);
+      printf("Cliente Terminou %d\n", i);
       thread_join(thread_patients[i], NULL);
    }
 
@@ -285,14 +285,6 @@ int main(int argc, char *argv[])
    {
       insert_pfifo(&hd->doctor_queue, MAX_PATIENTS, 1);
    } 
-
-   /* dummy code to show a very simple sequential behavior */
-   // for(uint32_t i = 0; i < npatients; i++)
-   // {
-   //    printf("\n");
-   //    random_wait(); // random wait for patience creation
-   //    patient_life(i);
-   // }
 
    return EXIT_SUCCESS;
 }

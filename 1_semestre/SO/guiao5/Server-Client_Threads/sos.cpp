@@ -181,7 +181,6 @@ namespace sos
         }
 
         uint32_t token = sharedArea->fifo[idx].tokens[sharedArea->fifo[idx].ri];
-        //tirar depois quando tiver bem
         sharedArea->fifo[idx].tokens[sharedArea->fifo[idx].ri] = NBUFFERS;
         sharedArea->fifo[idx].ri = (sharedArea->fifo[idx].ri + 1) % NBUFFERS;
         sharedArea->fifo[idx].cnt--;
@@ -255,7 +254,7 @@ namespace sos
         require(token < NBUFFERS, "token is not valid");
         require(resp != NULL, "resp pointer can not be NULL");
 
-        *resp = sharedArea->pool[token].resp;
+        resp = &sharedArea->pool[token].resp;
     }
 
     /* -------------------------------------------------------------------- */
@@ -295,7 +294,7 @@ namespace sos
         require(token < NBUFFERS, "token is not valid");
         require(data != NULL, "data pointer can not be NULL");
 
-        data = sharedArea->pool[token].req;
+        *data = *sharedArea->pool[token].req;
 
     }
 
