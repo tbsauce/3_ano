@@ -213,8 +213,8 @@ namespace sos
         require(token < NBUFFERS, "token is not valid");
         require(data != NULL, "data pointer can not be NULL");
 
-
         *(sharedArea->pool[token].req) = *data;
+
     }
 
     /* -------------------------------------------------------------------- */
