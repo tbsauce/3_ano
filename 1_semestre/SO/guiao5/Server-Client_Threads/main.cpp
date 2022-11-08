@@ -254,7 +254,7 @@ int main(int argc, char *argv[])
 
     for (uint32_t i = 0; i < nclients; i++)
     {
-        printf("Cliente Acabou %d\n", i);
+        printf("Cliente %d Acabou\n", i);
         pthread_join(clients_thread[i], NULL);
     }
 
@@ -265,6 +265,12 @@ int main(int argc, char *argv[])
         uint32_t token = sos::getFreeBuffer();
         sos::putRequestData(token, "\0");
         sos::submitRequest(token);
+    }
+
+    for (uint32_t i = 0; i < nservers; i++)
+    {
+        printf("Server %d Acabou\n", i);
+        pthread_join(servers_thread[i], NULL);
     }
 
     /* quitting */
