@@ -55,7 +55,6 @@ fprintf(stderr, "%s(id: %u)\n", __FUNCTION__, id);
     sos::getRequestData(token, req);
     if(req[0] == '\0')
     {
-        printf("Producer Terminate\n");
         pthread_exit(NULL);
     }
     sos::Response resp;
@@ -155,7 +154,6 @@ fprintf(stderr, "%s(id: %u, niter: %u, ...)\n", __FUNCTION__, id, niter);
         /* call the service */
         sos::Response resp;
         callService(id, req, &resp);
-
         /* print string and response */
         printf("\e[32;01m| %-50s | %02u,%02u,%02u | %02u |\e[0m\n", 
                 req, resp.noChars, resp.noDigits, resp.noLetters, id);
@@ -234,7 +232,7 @@ int main(int argc, char *argv[])
     uint32_t serverID[nservers];
     ARGV clientARGS[nclients];
     /* launching the servers */
-    
+
     for (uint32_t i = 0; i < nservers; i++)
     {
         serverID[i]=i;
@@ -249,7 +247,7 @@ int main(int argc, char *argv[])
         clientARGS[i].niter=niter;
         pthread_create(&clients_thread[i], NULL, &client_void, &clientARGS[i]);
     }
-
+    
     /* waiting for client to conclude */
 
     for (uint32_t i = 0; i < nclients; i++)
@@ -272,6 +270,8 @@ int main(int argc, char *argv[])
         printf("Server %d Acabou\n", i);
         pthread_join(servers_thread[i], NULL);
     }
+
+    
 
     /* quitting */
     return EXIT_SUCCESS;

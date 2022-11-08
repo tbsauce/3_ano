@@ -80,7 +80,7 @@ namespace sos
 
         require(sharedArea == NULL, "Shared area must not exist");
 
-        sharedArea = new SharedArea;
+        sharedArea = (SharedArea*)mem_alloc(sizeof(SharedArea));
 
         /* init fifo 0 (free buffers) */
         FIFO *fifo = &sharedArea->fifo[FREE_BUFFER];
@@ -110,6 +110,8 @@ namespace sos
         for (uint32_t i = 0; i < NBUFFERS; i++)
         {
                 mutex_init(&sharedArea->pool[i].access, NULL);
+                cond_init(&sharedArea->pool[i].done_rep, NULL);
+
         }
         
     }
@@ -330,7 +332,6 @@ namespace sos
 #endif
 
         require(token < NBUFFERS, "token is not valid");
-
         mutex_lock(&sharedArea->pool[token].access);
         sharedArea->pool[token].done = 1;
         cond_broadcast(&sharedArea->pool[token].done_rep);
