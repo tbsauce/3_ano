@@ -286,6 +286,18 @@ int main(int argc, char *argv[])
       insert_pfifo(&hd->doctor_queue, MAX_PATIENTS, 1);
    } 
 
+   for (uint32_t i = 0; i < ndoctors; i++)
+   {
+      printf("Doctor Terminou %d\n", i);
+      thread_join(thread_doctors[i], NULL);
+   }
+
+   for (uint32_t i = 0; i < nnurses; i++)
+   {
+      printf("Nurse Terminou %d\n", i);
+      thread_join(thread_nurses[i], NULL);
+   }
+
    return EXIT_SUCCESS;
 }
 
