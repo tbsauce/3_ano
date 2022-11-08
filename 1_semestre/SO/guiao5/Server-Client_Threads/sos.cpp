@@ -33,7 +33,9 @@ namespace sos
     {
         char req[MAX_STRING_LEN+1];
         Response resp;
+        pthread_cond_t done_rep;
         pthread_mutex_t access;
+        int done = 0;
     };
 
     /** \brief the fifo data type to store indexes of buffers */
@@ -241,6 +243,11 @@ namespace sos
         require(token < NBUFFERS, "token is not valid");
 
         mutex_lock(&sharedArea->pool[token].access);
+        while (sharedArea->pool[token].done != 1)
+        {
+                cond_wait(&sharedArea->pool[token].done_rep,&sharedArea->pool[token].access);
+        }
+        mutex_unlock(&sharedArea->pool[token].access);
     }
 
     /* -------------------------------------------------------------------- */
@@ -268,6 +275,7 @@ namespace sos
         require(token < NBUFFERS, "token is not valid");
 
         fifoIn(FREE_BUFFER, token);
+        sharedArea->pool[token].done = 0;
     }
 
     /* -------------------------------------------------------------------- */
@@ -323,6 +331,9 @@ namespace sos
 
         require(token < NBUFFERS, "token is not valid");
 
+        mutex_lock(&sharedArea->pool[token].access);
+        sharedArea->pool[token].done = 1;
+        cond_broadcast(&sharedArea->pool[token].done_rep);
         mutex_unlock(&sharedArea->pool[token].access);
     }
 
