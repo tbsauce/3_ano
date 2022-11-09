@@ -55,7 +55,7 @@ fprintf(stderr, "%s(id: %u)\n", __FUNCTION__, id);
     sos::getRequestData(token, req);
     if(req[0] == '\0')
     {
-        pthread_exit(NULL);
+        thread_exit(NULL);
     }
     sos::Response resp;
     for (uint32_t i = 0; req[i] != '\0'; i++)
@@ -236,7 +236,7 @@ int main(int argc, char *argv[])
     for (uint32_t i = 0; i < nservers; i++)
     {
         serverID[i]=i;
-        pthread_create(&servers_thread[i], NULL, &server_void, &serverID[i]);
+        thread_create(&servers_thread[i], NULL, &server_void, &serverID[i]);
     }
     
     /* launching the clients */
@@ -245,20 +245,20 @@ int main(int argc, char *argv[])
     {
         clientARGS[i].id=i;
         clientARGS[i].niter=niter;
-        pthread_create(&clients_thread[i], NULL, &client_void, &clientARGS[i]);
+        thread_create(&clients_thread[i], NULL, &client_void, &clientARGS[i]);
     }
     
     /* waiting for client to conclude */
 
     for (uint32_t i = 0; i < nclients; i++)
     {
+        thread_join(clients_thread[i], NULL);
         printf("Cliente %d Acabou\n", i);
-        pthread_join(clients_thread[i], NULL);
     }
 
     /* waiting for servers to conclude */
 
-    for (uint32_t i = 0; i < nservers; i++)
+    for (uint32_t i = 0; i < nclients; i++)
     {
         uint32_t token = sos::getFreeBuffer();
         sos::putRequestData(token, "\0");
@@ -267,11 +267,10 @@ int main(int argc, char *argv[])
 
     for (uint32_t i = 0; i < nservers; i++)
     {
+        thread_join(servers_thread[i], NULL);
         printf("Server %d Acabou\n", i);
-        pthread_join(servers_thread[i], NULL);
     }
 
-    
 
     /* quitting */
     return EXIT_SUCCESS;

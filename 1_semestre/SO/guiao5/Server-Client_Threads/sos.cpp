@@ -80,7 +80,7 @@ namespace sos
 
         require(sharedArea == NULL, "Shared area must not exist");
 
-        sharedArea = (SharedArea*)mem_alloc(sizeof(SharedArea));
+        sharedArea = (SharedArea*)malloc(sizeof(SharedArea));
 
         /* init fifo 0 (free buffers) */
         FIFO *fifo = &sharedArea->fifo[FREE_BUFFER];
@@ -151,11 +151,12 @@ namespace sos
 
         require(idx == FREE_BUFFER or idx == PENDING_REQUEST, "idx is not valid");
         require(token < NBUFFERS, "token is not valid");
-
+        printf("1count %d up: %d\n",idx,sharedArea->fifo[idx].cnt);      
         while (sharedArea->fifo[idx].cnt == NBUFFERS)
         {
                 cond_wait(&sharedArea->fifo[idx].notFull, &sharedArea->fifo[idx].access);
         }
+        printf("2count %d up: %d\n",idx,sharedArea->fifo[idx].cnt); 
 
         sharedArea->fifo[idx].tokens[sharedArea->fifo[idx].ii] = token;
         sharedArea->fifo[idx].ii = (sharedArea->fifo[idx].ii + 1) % NBUFFERS;
@@ -178,12 +179,12 @@ namespace sos
         mutex_lock(&sharedArea->fifo[idx].access);
 
         require(idx == FREE_BUFFER or idx == PENDING_REQUEST, "idx is not valid");
-
+        printf("1count %d: down %d\n",idx,sharedArea->fifo[idx].cnt);
         while (sharedArea->fifo[idx].cnt == 0)
         {
                 cond_wait(&sharedArea->fifo[idx].notEmpty, &sharedArea->fifo[idx].access);
         }
-
+        printf("2count %d: down %d\n",idx,sharedArea->fifo[idx].cnt);
         uint32_t token = sharedArea->fifo[idx].tokens[sharedArea->fifo[idx].ri];
         sharedArea->fifo[idx].tokens[sharedArea->fifo[idx].ri] = NBUFFERS;
         sharedArea->fifo[idx].ri = (sharedArea->fifo[idx].ri + 1) % NBUFFERS;
