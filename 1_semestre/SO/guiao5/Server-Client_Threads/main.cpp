@@ -258,11 +258,12 @@ int main(int argc, char *argv[])
 
     /* waiting for servers to conclude */
 
-    for (uint32_t i = 0; i < nclients; i++)
+    for (uint32_t i = 0; i < nservers; i++)
     {
         uint32_t token = sos::getFreeBuffer();
         sos::putRequestData(token, "\0");
         sos::submitRequest(token);
+        sos::releaseBuffer(token);
     }
 
     for (uint32_t i = 0; i < nservers; i++)
