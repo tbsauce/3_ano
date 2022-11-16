@@ -61,14 +61,6 @@ namespace sos
 
         /* A fifo for tokens of free buffers and another for tokens with pending requests */
         FIFO fifo[2];
-
-        /*
-         * TODO point
-         * Declare here all you need to accomplish the synchronization,
-         * semaphores (for implementation using processes) or
-         * mutexes, conditions and condition variables (for implementation using threads)
-         */
-        //meti na struct
         
     };
 
@@ -92,10 +84,6 @@ namespace sos
 
         require(sharedArea == NULL, "Shared area must not exist");
 
-        /* 
-         * TODO point
-         * Allocate the shared memory
-         */
         sharedId = pshmget(IPC_PRIVATE, sizeof(sharedArea), 0600| IPC_CREAT | IPC_EXCL);
         sharedArea = (SharedArea *)pshmat(sharedId, NULL, 0);
 
@@ -117,10 +105,6 @@ namespace sos
         fifo->ii = fifo->ri = 0;
         fifo->cnt = 0;
 
-        /* 
-         * TODO point
-         * Init synchronization elements
-         */
         //Fifo synchronization
 
             sharedArea->fifo[1].semId =  psemget(IPC_PRIVATE, 3, 0600 | IPC_CREAT | IPC_EXCL);
@@ -154,10 +138,6 @@ namespace sos
     {
         require(sharedArea != NULL, "sharea area must be allocated");
 
-        /* 
-         * TODO point
-         * Destroy synchronization elements
-         */
         psemctl(sharedArea->fifo[0].semId, 0, IPC_RMID, NULL);
         psemctl(sharedArea->fifo[1].semId, 0, IPC_RMID, NULL);
         for (size_t i = 0; i < NBUFFERS; i++)
@@ -165,10 +145,6 @@ namespace sos
             psemctl(sharedArea->pool[i].semId, 0 , IPC_RMID, NULL);
         }
 
-        /* 
-         * TODO point
-        *  Destroy the shared memory
-        */
         pshmdt(sharedArea);
         pshmctl(sharedId, IPC_RMID, NULL);
 
@@ -189,11 +165,6 @@ namespace sos
         require(idx == FREE_BUFFER or idx == PENDING_REQUEST, "idx is not valid");
         require(token < NBUFFERS, "token is not valid");
 
-        /* 
-         * TODO point
-         * Replace with your code, 
-         * avoiding race conditions and busy waiting
-         */
 
         psem_down(sharedArea->fifo[idx].semId, NSLOTS);
         psem_down(sharedArea->fifo[idx].semId, ACCESS);
@@ -218,11 +189,6 @@ namespace sos
 
         require(idx == FREE_BUFFER or idx == PENDING_REQUEST, "idx is not valid");
 
-        /* 
-         * TODO point
-         * Replace with your code, 
-         * avoiding race conditions and busy waiting
-         */
 
         psem_down(sharedArea->fifo[idx].semId, NITEMS);
         psem_down(sharedArea->fifo[idx].semId , ACCESS);
@@ -248,10 +214,6 @@ namespace sos
         fprintf(stderr, "%s()\n", __FUNCTION__);
 #endif
 
-        /* 
-         * TODO point
-         * Replace with your code, 
-         */
         return fifoOut(FREE_BUFFER);
     }
 
@@ -265,13 +227,7 @@ namespace sos
 
         require(token < NBUFFERS, "token is not valid");
         require(data != NULL, "data pointer can not be NULL");
-
-        /* 
-         * TODO point
-         * Replace with your code, 
-         */
         
-        printf("%s\n", data);
         *(sharedArea->pool[token].req) = *data;
 
     }
@@ -286,10 +242,6 @@ namespace sos
 
         require(token < NBUFFERS, "token is not valid");
 
-        /* 
-         * TODO point
-         * Replace with your code, 
-         */
         fifoIn(PENDING_REQUEST, token);
     }
 
@@ -302,12 +254,6 @@ namespace sos
 #endif
 
         require(token < NBUFFERS, "token is not valid");
-
-        /* 
-         * TODO point
-         * Replace with your code, 
-         * avoiding race conditions and busy waiting
-         */
 
         psem_down(sharedArea->pool[token].semId, ACCESS);
 
@@ -324,12 +270,7 @@ namespace sos
         require(token < NBUFFERS, "token is not valid");
         require(resp != NULL, "resp pointer can not be NULL");
 
-        /* 
-         * TODO point
-         * Replace with your code, 
-         */
-
-        *resp = sharedArea->pool[token].resp;
+        resp = &sharedArea->pool[token].resp;
         
     }
 
@@ -343,11 +284,6 @@ namespace sos
 
         require(token < NBUFFERS, "token is not valid");
 
-        /* 
-         * TODO point
-         * Replace with your code, 
-         */
-
         fifoIn(FREE_BUFFER, token);
     }
 
@@ -360,12 +296,8 @@ namespace sos
         fprintf(stderr, "%s()\n", __FUNCTION__);
 #endif
 
-        /* 
-         * TODO point
-         * Replace with your code, 
-         */
-
         return fifoOut(PENDING_REQUEST);
+
     }
 
     /* -------------------------------------------------------------------- */
@@ -379,12 +311,9 @@ namespace sos
         require(token < NBUFFERS, "token is not valid");
         require(data != NULL, "data pointer can not be NULL");
 
-        /* 
-         * TODO point
-         * Replace with your code, 
-         */
 
-        data = sharedArea->pool[token].req;
+        *data = *sharedArea->pool[token].req;
+
     }
 
     /* -------------------------------------------------------------------- */
@@ -398,12 +327,9 @@ namespace sos
         require(token < NBUFFERS, "token is not valid");
         require(resp != NULL, "resp pointer can not be NULL");
 
-        /* 
-         * TODO point
-         * Replace with your code, 
-         */
 
         sharedArea->pool[token].resp = *resp;
+
     }
 
     /* -------------------------------------------------------------------- */
@@ -416,11 +342,6 @@ namespace sos
 
         require(token < NBUFFERS, "token is not valid");
 
-        /* 
-         * TODO point
-         * Replace with your code, 
-         * avoiding race conditions and busy waiting
-         */
 
         psem_up(sharedArea->pool[token].semId, ACCESS);
         

@@ -14,8 +14,6 @@ sos.o:	sos.h dbc.h utils.h
 
 utils.o process.o:	utils.h dbc.h process.h
 
-process.o: 
-
 main.o:	sos.h dbc.h utils.h 
 
 clean:

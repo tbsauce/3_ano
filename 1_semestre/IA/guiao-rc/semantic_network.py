@@ -18,6 +18,7 @@
 #
 
 from curses.ascii import isalpha
+from threading import local
 from pkg_resources import declare_namespace
 
 
@@ -124,5 +125,38 @@ class SemanticNetwork:
     def list_local_associations_by_entity(self, ent):
         return list(set([(d.relation.name, d.user) for d in self.declarations if (d.relation.entity1 == ent or d.relation.entity2 == ent) and isinstance(d.relation, Association) ]))
         
-    def predecessor(self, a, b):
-        pass
+    def predecessor(self, A, B):
+        list =[ d.relation.entity2 for d in self.declarations if (isinstance(d.relation, Member) or isinstance(d.relation, Subtype)) and (d.relation.entity1 == B) ]
+
+        if A in list:
+            return True
+        
+        return any([self.predecessor(A, p) for p in list])
+
+    def predecessor_path(self, A, B):
+        list =[ d.relation.entity2 for d in self.declarations if (isinstance(d.relation, Member) or isinstance(d.relation, Subtype)) and (d.relation.entity1 == B) and (self.predecessor(A, d.relation.entity2))  ]
+
+        if list == []:
+            return [A]+[B] 
+        
+        return self.predecessor_path(A, str(list[0])) + [B]
+
+    def query (self, entity, assoc = None):
+        lst = [decl for decl in self.declarions if(decl.relation.entity1 == entity and (assoc == None or decl.relation.name == assoc) and not isinstance(decl.realtion, Member) and not isinstance(decl.realtion, Subtype))]
+
+        lst1 = [decl.relation.entity2 for decl in self.declarations if(decl.relation.entity1 == entity and (assoc == None or decl.relation.name == assoc) and isinstance(decl.realtion, Member) and isinstance(decl.realtion, Subtype))]
+
+        if lst1 == []:
+            return []
+        else:
+            cumul = []
+            for l in lst1:
+                cumul = cumul + self.query(l , assoc)
+        return lst + cumul
+
+    def query2(self, entity, rel = None):    
+        local_lst = [d for d in self.declarations if(d.relation.entity1 == entity and ())]
+        inhert_list = self.query(entity,rel)
+        return inhert_list + local_lst
+            
+            
