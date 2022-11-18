@@ -20,7 +20,7 @@
 from curses.ascii import isalpha
 from threading import local
 from pkg_resources import declare_namespace
-
+from collections import Counter
 
 class Relation:
     def __init__(self,e1,rel,e2):
@@ -142,21 +142,45 @@ class SemanticNetwork:
         return self.predecessor_path(A, str(list[0])) + [B]
 
     def query (self, entity, assoc = None):
-        lst = [decl for decl in self.declarions if(decl.relation.entity1 == entity and (assoc == None or decl.relation.name == assoc) and not isinstance(decl.realtion, Member) and not isinstance(decl.realtion, Subtype))]
+        lst = [decl for decl in self.declarations if(decl.relation.entity1 == entity and (assoc == None or decl.relation.name == assoc) and not isinstance(decl.relation, Member) and not isinstance(decl.relation, Subtype))]
 
-        lst1 = [decl.relation.entity2 for decl in self.declarations if(decl.relation.entity1 == entity and (assoc == None or decl.relation.name == assoc) and isinstance(decl.realtion, Member) and isinstance(decl.realtion, Subtype))]
+        lstent = [decl.relation.entity2 for decl in self.declarations if(decl.relation.entity1 == entity and (isinstance(decl.relation, Member) or isinstance(decl.relation, Subtype)))]
 
-        if lst1 == []:
+        if lstent == []:
             return []
         else:
             cumul = []
-            for l in lst1:
+            for l in lstent:
                 cumul = cumul + self.query(l , assoc)
-        return lst + cumul
+            return lst + cumul
 
     def query2(self, entity, rel = None):    
-        local_lst = [d for d in self.declarations if(d.relation.entity1 == entity and ())]
+        local_lst = [d for d in self.declarations if(d.relation.entity1 == entity and (isinstance(d.relation, Member) or isinstance(d.relation, Subtype)))]
         inhert_list = self.query(entity,rel)
         return inhert_list + local_lst
+
+    def query_cancel():
+        pass
+    def query_down(self, e, assoc):
+        lst_kids = [decl.relation for decl in self.declarations if(decl.relation.entity2 == e and isinstance(decl.relation,(Member, Subtype)))]
+
+        if(lst_kids == []):
+            return []
+
+        res_list= []
+        for l in lst_kids:
+            lst_assoc = self.query_down(l, assoc)
+    #acabar
+
+    def query_induce(self, tp, assoc):
+        desc_lst = self.query_down(tp, assoc)
+
+        lst_values = [d.relation.entity2 for d in desc_lst]
+
+        accurances = Counter(lst_values)
+
+        # common_assoc_value, num_occur =
+
+        #acabar
             
             
