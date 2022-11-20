@@ -89,7 +89,6 @@ void nurse_iteration()
    uint32_t patient = retrieve_pfifo(&hd->triage_queue);
    if(patient == MAX_PATIENTS)
    {
-      printf("Nurser Saiu\n");
       thread_exit(NULL);
    }
    check_valid_patient(patient);
@@ -120,7 +119,6 @@ void doctor_iteration()
    uint32_t patient = retrieve_pfifo(&hd->doctor_queue);
    if(patient == MAX_PATIENTS)
    {
-      printf("Doctor Saiu\n");
       thread_exit(NULL);
    }
    check_valid_patient(patient);
@@ -251,19 +249,19 @@ int main(int argc, char *argv[])
    uint32_t nurseId[nnurses];
 
    //create
-   for (size_t i = 0; i < npatients; i++)
+   for (uint32_t i = 0; i < npatients; i++)
    {
       patientId[i] = i;
       thread_create(&thread_patients[i], NULL, &patient ,&patientId[i]);
    }
 
-   for (size_t i = 0; i < ndoctors; i++)
+   for (uint32_t i = 0; i < ndoctors; i++)
    {
       doctorId[i] = i;
       thread_create(&thread_doctors[i], NULL, &doctor ,&doctorId[i]);
    }
 
-   for (size_t i = 0; i < nnurses; i++)
+   for (uint32_t i = 0; i < nnurses; i++)
    {
       nurseId[i] = i;
       thread_create(&thread_nurses[i], NULL, &nurse ,&nurseId[i]);
