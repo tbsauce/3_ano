@@ -22,7 +22,7 @@ res
 % c
 
 M = [T - eye(length(T));
-    ones(1, length((T)))];
+    ones(1, length(T))];
 
 X = [zeros(length(T), 1);1];
 
