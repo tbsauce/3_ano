@@ -21,7 +21,7 @@ def test_exercicio1(initial_state):
     assert bwdomain.result(initial_state, actions[-1]) == {Free(e), On(c,d), Floor(d), Floor(b), HandFree(), Floor(a), Free(a), Free(c), Free(b), Floor(e)}
 
     assert bwdomain.satisfies(initial_state, [On(c,d), Free(a)])
-
+"""
 def test_exercicio2(initial_state, goal_state):
     bwdomain = STRIPS()
 
@@ -32,3 +32,4 @@ def test_exercicio2(initial_state, goal_state):
     t.search()
 
     assert str(t.plan) == "[Stack(e,b), Unstack(c,d), Putdown(c), Pickup(d), Stack(d,c), Unstack(e,b), Stack(e,d), Pickup(a), Stack(a,e)]"
+"""

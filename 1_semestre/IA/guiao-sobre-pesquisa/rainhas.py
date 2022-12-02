@@ -22,5 +22,5 @@ def make_domains(n):
 
 cs = ConstraintSearch(make_domains(4),make_constraint_graph(4))
 
-print(cs.search())
+# print(cs.search())
 

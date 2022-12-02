@@ -100,7 +100,6 @@ class SearchTree:
         self.terminals = 0
         self.non_terminals = 0
         self.highest_cost_nodes = [root]
-        self.plan = []
 
     
     #aqui tbm adicionei 2.3
