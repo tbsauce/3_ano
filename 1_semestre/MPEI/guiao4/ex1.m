@@ -3,13 +3,15 @@
 N = 1e5;
 alpha = ['a':'z' 'A':'Z'];
 keys = genKeys(N,6, 20, alpha);
+save keys.mat
 
 %% b 
 
 N = 1e5;
 alpha = 'a':'z';
 prob = load("FicheirosComplementares\prob_pt.txt");
-keysp = genKeys(N,6, 20, alpha, prob)
+keys_prob = genKeys(N,6, 20, alpha, prob)
+save keys_prob.mat
 
 %% functions
 
