@@ -1,0 +1,60 @@
+body {
+    color:hsl(0, 100%, 100%);
+    overflow-x: hidden;
+    height: 100%;
+    background-color: hsl(0, 100%, 100%);
+    background-repeat: no-repeat;
+}
+
+.card-fundo {
+    background-image:url("../img/dog1.png");
+    background-size: cover;
+    width: 600px;
+    height: 450px;
+    border-radius: 10px;
+    box-shadow: 0px 8px 16px 4px hsl(0, 100%, 100%);
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+.card-fundoW {
+    background-image:url("../img/semNada.png");
+    background-size: cover;
+    width: 600px;
+    height: 450px;
+    border-radius: 10px;
+    box-shadow: 0px 8px 16px 4px hsl(0, 100%, 100%);
+    margin-top: 0px;
+    margin-bottom: 0px;
+    opacity: 30;
+}
+
+.time-font {
+    font-size: 50px;
+}
+
+.sm-font {
+    font-size: 18px;
+}
+
+.med-font {
+    font-size: 28px;
+}
+
+.large-font {
+    font-size: 60px;
+}
+body{background-color: #AA00FF}
+.container{margin-top: 200px}
+.btn:hover{color: #fff}
+.input-text:focus{box-shadow: 0px 0px 0px;border-color: #f8c146;outline: 0px}
+.input-group{width: 204px}
+.form-control{border: 1px solid #ed433e}
+.form-control[readonly]{
+    background-color: #ffffff;
+    opacity: 1}
+.btn-outline-warning{
+    color: #F44336 !important;
+    background-color: #fff;
+    background-image: url("../img/semNada.png");
+    border-color: #ed433e !important}

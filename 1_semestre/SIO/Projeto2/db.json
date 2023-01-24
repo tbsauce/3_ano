@@ -1,0 +1,14 @@
+{
+    "jogadores":[
+        {
+        "id":1,
+        "Nick": "Alberto",
+        "PrivKey":"1234"
+        },
+        {
+        "id":2,
+        "Nick": "Joao",
+        "PrivKey":"1234"
+        }
+    ]
+}

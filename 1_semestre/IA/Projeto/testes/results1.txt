@@ -1,0 +1,290 @@
+
+
+
+leve-> 1
+Tamanho da solução -> 4
+Tempo de Procura ->  0.0005083649999999551
+
+
+leve-> 2
+Tamanho da solução -> 5
+Tempo de Procura ->  0.0010853760000000268
+
+
+leve-> 3
+Tamanho da solução -> 8
+Tempo de Procura ->  0.003492248000000031
+
+
+leve-> 4
+Tamanho da solução -> 8
+Tempo de Procura ->  0.0031653369999999903
+
+
+leve-> 5
+Tamanho da solução -> 10
+Tempo de Procura ->  0.0031889520000000227
+
+
+leve-> 6
+Tamanho da solução -> 9
+Tempo de Procura ->  0.0035408410000000723
+
+
+leve-> 7
+Tamanho da solução -> 12
+Tempo de Procura ->  0.020232200000000033
+
+
+leve-> 8
+Tamanho da solução -> 13
+Tempo de Procura ->  0.0627624750000001
+
+
+leve-> 9
+Tamanho da solução -> 14
+Tempo de Procura ->  0.024551568999999995
+
+
+leve-> 10
+Tamanho da solução -> 12
+Tempo de Procura ->  0.11536350700000009
+
+
+leve-> 11
+Tamanho da solução -> 15
+Tempo de Procura ->  0.02255783599999983
+
+
+leve-> 12
+Tamanho da solução -> 19
+Tempo de Procura ->  0.025763032999999824
+
+
+leve-> 13
+Tamanho da solução -> 23
+Tempo de Procura ->  0.17502082399999996
+
+
+leve-> 14
+Tamanho da solução -> 23
+Tempo de Procura ->  0.073955942
+
+
+leve-> 15
+Tamanho da solução -> 35
+Tempo de Procura ->  0.29537313499999995
+
+
+leve-> 16
+Tamanho da solução -> 33
+Tempo de Procura ->  0.1942632080000002
+
+
+leve-> 17
+Tamanho da solução -> 33
+Tempo de Procura ->  0.13186527000000003
+
+
+leve-> 18
+Tamanho da solução -> 33
+Tempo de Procura ->  0.38061359699999997
+
+
+leve-> 19
+Tamanho da solução -> 57
+Tempo de Procura ->  0.20123604800000017
+
+
+leve-> 20
+Tamanho da solução -> 36
+Tempo de Procura ->  0.16814527099999976
+
+
+leve-> 21
+Tamanho da solução -> 46
+Tempo de Procura ->  0.13970631999999972
+
+
+leve-> 22
+Tamanho da solução -> 47
+Tempo de Procura ->  1.1858700930000001
+
+
+leve-> 23
+Tamanho da solução -> 44
+Tempo de Procura ->  0.713518637
+
+
+leve-> 24
+Tamanho da solução -> 45
+Tempo de Procura ->  0.5024228559999999
+
+
+leve-> 25
+Tamanho da solução -> 84
+Tempo de Procura ->  6.756866840000001
+
+
+leve-> 26
+Tamanho da solução -> 65
+Tempo de Procura ->  7.484335466999999
+
+
+leve-> 27
+Tamanho da solução -> 52
+Tempo de Procura ->  1.3849593999999996
+
+
+leve-> 28
+Tamanho da solução -> 61
+Tempo de Procura ->  0.49317965399999864
+
+
+leve-> 29
+Tamanho da solução -> 68
+Tempo de Procura ->  1.0514466520000028
+
+
+leve-> 30
+Tamanho da solução -> 69
+Tempo de Procura ->  0.6310341629999989
+
+
+leve-> 31
+Tamanho da solução -> 58
+Tempo de Procura ->  1.8668021500000016
+
+
+leve-> 32
+Tamanho da solução -> 81
+Tempo de Procura ->  1.552424061
+
+
+leve-> 33
+Tamanho da solução -> 49
+Tempo de Procura ->  0.0767123930000011
+
+
+leve-> 34
+Tamanho da solução -> 62
+Tempo de Procura ->  1.731850553000001
+
+
+leve-> 35
+Tamanho da solução -> 78
+Tempo de Procura ->  1.3835714169999989
+
+
+leve-> 36
+Tamanho da solução -> 59
+Tempo de Procura ->  0.5124814990000033
+
+
+leve-> 37
+Tamanho da solução -> 61
+Tempo de Procura ->  0.13327520600000042
+
+
+leve-> 38
+Tamanho da solução -> 94
+Tempo de Procura ->  3.9087022199999986
+
+
+leve-> 39
+Tamanho da solução -> 100
+Tempo de Procura ->  6.761843050000003
+
+
+leve-> 40
+Tamanho da solução -> 80
+Tempo de Procura ->  0.2983148279999952
+
+
+leve-> 41
+Tamanho da solução -> 80
+Tempo de Procura ->  0.799671914000001
+
+
+leve-> 42
+Tamanho da solução -> 57
+Tempo de Procura ->  0.03901855000000154
+
+
+leve-> 43
+Tamanho da solução -> 79
+Tempo de Procura ->  0.3398010290000002
+
+
+leve-> 44
+Tamanho da solução -> 91
+Tempo de Procura ->  0.8387931829999999
+
+
+leve-> 45
+Tamanho da solução -> 75
+Tempo de Procura ->  1.316290354000003
+
+
+leve-> 46
+Tamanho da solução -> 98
+Tempo de Procura ->  0.8630181790000009
+
+
+leve-> 47
+Tamanho da solução -> 75
+Tempo de Procura ->  0.6895025120000042
+
+
+leve-> 48
+Tamanho da solução -> 86
+Tempo de Procura ->  0.38579992600000423
+
+
+leve-> 49
+Tamanho da solução -> 106
+Tempo de Procura ->  0.429519372999998
+
+
+leve-> 50
+Tamanho da solução -> 113
+Tempo de Procura ->  1.2340092549999966
+
+
+leve-> 51
+Tamanho da solução -> 89
+Tempo de Procura ->  1.2153634390000008
+
+
+leve-> 52
+Tamanho da solução -> 113
+Tempo de Procura ->  2.002167669000002
+
+
+leve-> 53
+Tamanho da solução -> 107
+Tempo de Procura ->  1.6602312739999974
+
+
+leve-> 54
+Tamanho da solução -> 108
+Tempo de Procura ->  1.2612762479999944
+
+
+leve-> 55
+Tamanho da solução -> 128
+Tempo de Procura ->  4.071050621000005
+
+
+leve-> 56
+Tamanho da solução -> 120
+Tempo de Procura ->  3.732230655000002
+
+
+leve-> 57
+Tamanho da solução -> 112
+Tempo de Procura ->  1.0981245930000014
+
+
+
+Total da pesquisa -> 62.451871267000016
