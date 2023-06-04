@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.topnav {
+  overflow: hidden;
+  background-color: #333;
+}
+
+.topnav a {
+  float: left;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+.topnav a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.topnav a.active {
+  background-color: #04AA6D;
+  color: white;
+}
+</style>
+</head>
+
+<body >
+
+  <div class="topnav" style="display: block;">
+    <a href="/ProfileArtist">Profile</a>
+    <a href="/Playlists" >Playlists</a>
+    <a href="/Songs">Songs</a>
+    <a href="/Albums">Albums</a>
+    <a href="/Podcasts">Podcasts</a>
+    <a href="/Favorites">Favorites</a>
+  </div>
+
+  <div>
+  <h2>All Songs</h2>
+  <form method="POST">
+    <input type="text" placeholder="Search.." name="search">
+    <button type="submit">Search</button>
+  </form>
+  </div>
+  <div id="musicList" style="display: inline-block; margin-right: 20px;">
+    {% for track in tracks %}
+        <div class="musica" style="display: inline-block ;margin: 20px;">
+          <div style="display: inline-block; text-align: center; vertical-align: middle;">
+              <img style="height: 40px;width: 40px;display: inline-block;" src={{track[5]}} >
+          </div>
+          <div style="display: inline-block;text-align: center;vertical-align: middle;">
+              <p>{{ track[1] }}</p>
+          </div>
+          <div style="display: inline-block;text-align: center;vertical-align: middle;">
+              <p>{{ track[2] }}</p>
+          </div>
+          <div style="display: inline-block;text-align: center;vertical-align: middle;">
+            <p>{{ track[3] }}</p>
+          </div>
+          <div style="display: inline-block;text-align: center;vertical-align: middle;">
+              <p>{{ track[4] }}</p>
+          </div>
+          {% if track[0] in FavoriteTracks %}
+            <div style="display: inline-block;text-align: center;vertical-align: middle;">
+              <form method="post">
+                <input type="hidden" name="form_type" value="musicasUnFav">
+                <button type="submit" name="musicaUnFav" value="{{ track[0] }}">UnFavorite</button>
+              </form>
+            </div>
+          {% else %}
+            <div style="display: inline-block;text-align: center;vertical-align: middle;">
+              <form method="post">
+                <input type="hidden" name="form_type" value="musicasFav">
+                <button type="submit" name="musicaFav" value="{{ track[0] }}">Favorite</button>
+              </form>
+            </div>
+          {% endif %}
+        </div>
+      
+    {% endfor %}
+  </div>
+
+</body>
+</html>

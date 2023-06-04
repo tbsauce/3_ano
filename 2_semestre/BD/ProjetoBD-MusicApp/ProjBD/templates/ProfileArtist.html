@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+  <html>
+  <head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+  body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+
+  .topnav {
+    overflow: hidden;
+    background-color: #333;
+  }
+
+  .topnav a {
+    float: left;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+  }
+
+  .topnav a:hover {
+    background-color: #ddd;
+    color: black;
+  }
+
+  .topnav a.active {
+    background-color: #04AA6D;
+    color: white;
+  }
+  /* Button used to open the contact form - fixed at the bottom of the page */
+  .open-button {
+    background-color: #555;
+    color: white;
+    padding: 16px 20px;
+    border: none;
+    cursor: pointer;
+    opacity: 0.8;
+    position: fixed;
+    bottom: 23px;
+    right: 28px;
+    width: 280px;
+  }
+
+  /* The popup form - hidden by default */
+  .form-popup {
+    display: none;
+    bottom: 0;
+    right: 15px;
+    border: 3px solid #f1f1f1;
+    z-index: 9;
+  }
+
+  /* Add styles to the form container */
+  .form-container {
+    max-width: 300px;
+    padding: 10px;
+    background-color: white;
+  }
+
+  /* Full-width input fields */
+  .form-container input[type=text], .form-container input[type=password] {
+    width: 100%;
+    padding: 15px;
+    margin: 5px 0 22px 0;
+    border: none;
+    background: #f1f1f1;
+  }
+
+  /* When the inputs get focus, do something */
+  .form-container input[type=text]:focus, .form-container input[type=password]:focus {
+    background-color: #ddd;
+    outline: none;
+  }
+
+  /* Set a style for the submit/login button */
+  .form-container .btn {
+    background-color: #04AA6D;
+    color: white;
+    padding: 16px 20px;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    margin-bottom:10px;
+    opacity: 0.8;
+  }
+
+  /* Add a red background color to the cancel button */
+  .form-container .cancel {
+    background-color: red;
+  }
+
+  /* Add some hover effects to buttons */
+  .form-container .btn:hover, .open-button:hover {
+    opacity: 1;
+  }
+  </style>
+  </head>
+
+  <body >
+
+    <div class="topnav" style="display: block;">
+      <a href="/ProfileArtist">Profile</a>
+      <a href="/Playlists" >Playlists</a>
+      <a href="/Songs">Songs</a>
+      <a href="/Albums">Albums</a>
+      <a href="/Podcasts">Podcasts</a>
+      <a href="/Favorites">Favorites</a>
+    </div>
+    
+
+    <div style="display: block; ">
+        <div style="display: inline-block; width: 40%; align-self: self-start; vertical-align: top;">
+          <div style="display: block;">
+              <h2>{{uname}}</h2>
+          </div>
+          <div id="exit">
+            <form class="form-container warning" method="post">
+              <button type="submit" class="btn" name="form_type" value="exit">Delete user</button>
+            </form>
+          </div>
+          <div >
+              <img   style=" height:auto;width: 40%; object-fit: cover; display: block;"src={{photo}} >
+          </div>
+          <div>
+
+            {% if isArtist %}
+              <button onclick="openForm()">Add Single</button>
+              <button onclick="openAlbum()">Add Album</button>
+            {% endif %}
+            <button onclick="openPlaylist()">Add Playlist</button>
+            {% if isPodcaster %}
+              <button onclick="openPodcast()">Add Podcast</button>
+            {% endif %}
+            
+
+            <div class="form-popup" id="album.popup">
+              <form class="form-container" method="post">
+                <h1>Album</h1>
+            
+                <label for="Title"><b>Title</b></label>
+                <input type="text" placeholder="Title" name="Title" required>
+
+                
+                <label for="Photo"><b>Photo</b></label>
+                <input type="text" placeholder="Photo" name="Photo" required>
+
+                <div id="dropdowns">
+                  <select id="mySelect"  name="Genre">
+                    <option value="">-- Select an genre --</option>
+                    {% for genre in genres %}
+                      <option value="{{ genre[0] }}">{{ genre[1] }}</option>
+                    {% endfor %}
+                  </select>
+      
+                  <select id="myMusic"  name="track" multiple>
+                    <option value="">-- Select an music --</option>
+                    {% for track in tracks %}
+                      <option value="{{ track[0] }}">{{ track[1] }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+
+                <input type="hidden" name="form_type" value="album">
+                <button type="submit" class="btn">submit</button>
+                <button type="button" class="btn cancel" onclick="closeAlbum()">Close</button>
+              </form>
+          
+
+            </div>
+
+            <div class="form-popup" id="myForm">
+              <form class="form-container" method="post">
+                <h1>Single</h1>
+            
+                <label for="Title"><b>Title</b></label>
+                <input type="text" placeholder="Title" name="Title" required>
+        
+                
+                <label for="Photo"><b>Photo</b></label>
+                <input type="text" placeholder="Photo" name="Photo" required>
+
+                <select id="Select" name="Genre">
+                  <option id="option" value="">-- Select a genre --</option>
+                  {% for genre in genres %}
+                    <option value="{{ genre[0] }}">{{ genre[1] }}</option>
+                  {% endfor %}
+                </select>
+              
+                <input type="hidden" name="form_type" value="single">
+                <button type="submit" class="btn">submit</button>
+                <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+              </form>
+            </div>
+
+            <div class="form-popup" id="myPlaylist">
+              <form class="form-container" method="post">
+                <h1>Playlist</h1>
+            
+                <label for="Title"><b>Title</b></label>
+                <input type="text" placeholder="Title" name="Title" required>
+
+                <label for="Photo"><b>Photo</b></label>
+                <input type="text" placeholder="Photo" name="Photo" required>
+
+                <div id="dropdowns">
+                  <select id="mySelect"  name="Genre">
+                    <option value="">-- Select an genre --</option>
+                    {% for genre in genres %}
+                      <option value="{{ genre[0] }}">{{ genre[1] }}</option>
+                    {% endfor %}
+                  </select>
+      
+                  <select id="myMusic"  name="track" multiple>
+                    {% for track in Alltracks %}
+                      <option value="{{ track[0] }}">{{ track[1] }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+                  <input type="hidden" name="form_type" value="playList">
+                  <button type="submit" class="btn">submit</button>
+                  <button type="button" class="btn cancel" onclick="closePlaylist()">Close</button>
+                
+                </form>
+            </div>
+
+            
+            <div class="form-popup" id="myPodcast">
+              <form class="form-container" method="post">
+                <h1>Podcast</h1>
+            
+                <label for="Title"><b>Title</b></label>
+                <input type="text" placeholder="Title" name="Title" required>
+
+                <label for="Photo"><b>Photo</b></label>
+                <input type="text" placeholder="Photo" name="Photo" required>
+
+                <label for="Desciption"><b>Desciption</b></label>
+                <input type="text" placeholder="Desciption" name="Description" required>
+
+                <div id="dropdowns">
+                  <select id="mySelect"  name="Genre">
+                    <option value="">-- Select an genre --</option>
+                    {% for genre in genresPodcast %}
+                      <option value="{{ genre[0] }}">{{ genre[1] }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+                  <input type="hidden" name="form_type" value="podcast">
+                  <button type="submit" class="btn">submit</button>
+                  <button type="button" class="btn cancel" onclick="closePodcast()">Close</button>
+                
+              </form>
+            </div>
+
+
+        </div>
+      </div>
+    </div>
+    <div id=POPBlock style="display: block;">
+      <h1>Popularity</h1>
+        <div id=popList style="display: inline-block; width: 40%;align-items: center; overflow-y: scroll; height: 500px; ;">
+          <div id="pop" style="display: inline-block; margin-right: 20px;">
+            {% for pop in Popular %}
+                <div class="musica" style="display: inline-block ;margin: 20px;">
+                  <div style="display: inline-block;text-align: center;vertical-align: middle;">
+                    <p>Popularity : {{ pop[2] }}</p>
+                  </div>
+                  <div style="display: inline-block;text-align: center;vertical-align: middle;">
+                      <p>Title: {{ pop[1] }}</p>
+                  </div>
+                  {%if pop[3] != None%}
+                    <div style="display: inline-block;text-align: center;vertical-align: middle;">
+                      <p>date : {{ pop[3] }}</p>
+                    </div>
+                  {%endif%}
+                  <div style="display: inline-block;text-align: center;vertical-align: middle;">
+                    <p>Type:{{ pop[0] }}</p>
+                </div>
+                </div>
+            {% endfor %}
+          </div>
+        </div>
+        
+
+    </div>
+    
+      <div id=musicList style="display: inline-block; width: 40%;align-items: center; overflow-y: scroll; height: 500px;">
+        <div style="text-align: center;">
+            <h2 >Musicas</h2>
+        </div>
+        
+        <div id="musicList" style="display: inline-block; margin-right: 20px;">
+          {% for track in tracks %}
+              <div class="musica" style="display: inline-block ;margin: 20px;">
+                <div style="display: inline-block; text-align: center; vertical-align: middle;">
+                    <img style="height: 40px;width: 40px;display: inline-block;" src={{track[4]}} >
+                </div>
+                <div style="display: inline-block;text-align: center;vertical-align: middle;">
+                    <p>{{ track[1] }}</p>
+                </div>
+                <div style="display: inline-block;text-align: center;vertical-align: middle;">
+                    <p>{{ track[2] }}</p>
+                </div>
+                <div style="display: inline-block;text-align: center;vertical-align: middle;">
+                  <p>{{ track[3] }}</p>
+                </div>
+                <div style="display: inline-block;text-align: center;vertical-align: middle;">
+                    <p>{{ track[5] }}</p>
+                </div>
+                {% if track[0] in FavoriteTracks %}
+                  <div style="display: inline-block;text-align: center;vertical-align: middle;">
+                    <form method="post">
+                      <input type="hidden" name="form_type" value="musicasUnFav">
+                      <button type="submit" name="musicaUnFav" value="{{ track[0] }}">UnFavorite</button>
+                    </form>
+                  </div>
+                {% else %}
+                  <div style="display: inline-block;text-align: center;vertical-align: middle;">
+                    <form method="post">
+                      <input type="hidden" name="form_type" value="musicasFav">
+                      <button type="submit" name="musicaFav" value="{{ track[0] }}">Favorite</button>
+                    </form>
+                  </div>
+                {% endif %}
+              </div>
+            
+          {% endfor %}
+        </div>
+
+        
+          
+      </div>
+     
+      <div id=AlbumsBlock style="display: block;">
+        <h1>Albums</h1>
+        {% for album in albums %}
+          <div id=albumsList style="display: inline-block; width: 40%;align-items: center; overflow-y: scroll; height: 500px; ;">
+            <div style="text-align: center;">
+                <h2 >{{album[0][1]}}</h2>
+                <img style="height: 40px;width: 40px;display: inline-block; " src="{{album[0][4]}}" >
+                {% if album[0][0] in FavoriteAlbums %}
+                  <div style="display: inline-block;text-align: center;vertical-align: middle;">
+                    <form method="post">
+                      <input type="hidden" name="form_type" value="albumsUnFav">
+                      <button type="submit" name="albumUnFav" value="{{ album[0][0] }}">UnFavorite</button>
+                    </form>
+                  </div>
+                {% else %}
+                  <div style="display: inline-block;text-align: center;vertical-align: middle;">
+                    <form method="post">
+                      <input type="hidden" name="form_type" value="albumsFav">
+                      <button type="submit" name="albumFav" value="{{ album[0][0] }}">Favorite</button>
+                    </form>
+                  </div>
+                {% endif %}
+            </div>
+            {% for track in album[1] %}
+              <div id="album" style="display: inline-block ;margin: 20px;">
+                <div style="display: inline-block; text-align: center; vertical-align: middle;">
+                    <img style="height: 40px;width: 40px;display: inline-block; " src={{track[5]}} >
+                </div>
+                <div style="display: inline-block;text-align: center;vertical-align: middle;">
+                    <p >{{ track[1] }}</p>
+                </div>  
+                <div style="display: inline-block;text-align: center;vertical-align: middle;">
+                  <p >{{ track[3] }}</p>
+                </div>
+                <div style="display: inline-block;text-align: center;vertical-align: middle;">
+                  <p >{{ track[4] }}</p>
+                </div>
+                {% if track[0] in FavoriteTracks %}
+                  <div style="display: inline-block;text-align: center;vertical-align: middle;">
+                    <form method="post">
+                      <input type="hidden" name="form_type" value="musicasUnFav">
+                      <button type="submit" name="musicaUnFav" value="{{ track[0] }}">UnFavorite</button>
+                    </form>
+                  </div>
+                {% else %}
+                  <div style="display: inline-block;text-align: center;vertical-align: middle;">
+                    <form method="post">
+                      <input type="hidden" name="form_type" value="musicasFav">
+                      <button type="submit" name="musicaFav" value="{{ track[0] }}">Favorite</button>
+                    </form>
+                  </div>
+                {% endif %}
+                
+              </div>
+              
+            {% endfor %}
+          </div>
+        {% endfor %}
+      </div>
+      
+      <div id=PlaylistBlock style="display: block;">
+        <h1>Playlists</h1>
+        {% for playlist in playlists %}
+          <div id=PlayList style="display: inline-block; width: 40%;align-items: center; overflow-y: scroll; height: 500px;">
+            <div style="text-align: center;">
+                <h2 >{{playlist[0][1]}}</h2>
+                <div style="display: inline-block; text-align: center; vertical-align: middle;">
+                  <img style="height: 40px;width: 40px;display: inline-block; " src={{playlist[0][3]}} >
+              </div>
+                {% if playlist[0][0] in FavoritePlaylists %}
+                  <div style="display: inline-block;text-align: center;vertical-align: middle;">
+                    <form method="post">
+                      <input type="hidden" name="form_type" value="playlistsUnFav">
+                      <button type="submit" name="playlistUnFav" value="{{ playlist[0][0] }}">UnFavorite</button>
+                    </form>
+                  </div>
+                {% else %}
+                  <div style="display: inline-block;text-align: center;vertical-align: middle;">
+                    <form method="post">
+                      <input type="hidden" name="form_type" value="playlistsFav">
+                      <button type="submit" name="playlistFav" value="{{ playlist[0][0] }}">Favorite</button>
+                    </form>
+                  </div>
+                {% endif %}
+            </div>
+            
+            <div id="PlayList" style="display: inline-block; margin-right: 20px;">
+              {% for track in playlist[1] %}
+                <div class="musica" style="display: inline-block ;margin: 20px;">
+                  <div style="display: inline-block; text-align: center; vertical-align: middle;">
+                      <img style="height: 40px;width: 40px;display: inline-block;" src="../static/img/Teste.png" >
+                  </div>
+                  <div style="display: inline-block;text-align: center;vertical-align: middle;">
+                      <p>{{ track[1] }}</p>
+                  </div>
+                  <div style="display: inline-block;text-align: center;vertical-align: middle;">
+                      <p>{{ track[3] }}</p>
+                  </div>
+                  <div style="display: inline-block;text-align: center;vertical-align: middle;">
+                    <p>{{ track[4] }}</p>
+                  </div>
+                  <div style="display: inline-block;text-align: center;vertical-align: middle;">
+                      <p>{{ track[5] }}</p>
+                  </div>
+                  {% if track[0] in FavoriteTracks %}
+                  <div style="display: inline-block;text-align: center;vertical-align: middle;">
+                    <form method="post">
+                      <input type="hidden" name="form_type" value="musicasUnFav">
+                      <button type="submit" name="musicaUnFav" value="{{ track[0] }}">UnFavorite</button>
+                    </form>
+                  </div>
+                {% else %}
+                  <div style="display: inline-block;text-align: center;vertical-align: middle;">
+                    <form method="post">
+                      <input type="hidden" name="form_type" value="musicasFav">
+                      <button type="submit" name="musicaFav" value="{{ track[0] }}">Favorite</button>
+                    </form>
+                  </div>
+                {% endif %}
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+
+      <div id=PodcastBlock style="display: block;">
+        <h1>Podcasts</h1>
+        {% for podcast in podcasts %}
+          <div id=Podcast style="display: inline-block; width: 40%;align-items: center; overflow-y: scroll; height: 500px;">
+            <div style="text-align: center;">
+                <h2 >{{podcast[0][1]}} {{podcast[0][2]}}</h2>
+                <div style="display: inline-block; text-align: center; vertical-align: middle;">
+                  <img style="height: 40px;width: 40px;display: inline-block; " src="{{podcast[0][4]}}" >
+              </div>
+                {% if podcast[0][0] in FavoritePodcasts %}
+                  <div style="display: inline-block;text-align: center;vertical-align: middle;">
+                    <form method="post">
+                      <input type="hidden" name="form_type" value="podcastsUnFav">
+                      <button type="submit" name="podcastUnFav" value="{{ podcast[0][0] }}">UnFavorite</button>
+                    </form>
+                  </div>
+                {% else %}
+                  <div style="display: inline-block;text-align: center;vertical-align: middle;">
+                    <form method="post">
+                      <input type="hidden" name="form_type" value="podcastsFav">
+                      <button type="submit" name="podcastFav" value="{{ podcast[0][0] }}">Favorite</button>
+                    </form>
+                  </div>
+                {% endif %}
+            </div>
+            
+            <div id="Podcast" style="display: inline-block; margin-right: 20px;">
+              {% for episode in podcast[1] %}
+                <div class="musica" style="display: inline-block ;margin: 20px;">
+                  <div style="display: inline-block;text-align: center;vertical-align: middle;">
+                      <p>{{ episode[1]}}</p>
+                  </div>
+                  <div style="display: inline-block;text-align: center;vertical-align: middle;">
+                      <p>{{ episode[2] }}</p>
+                  </div>
+                  <div style="display: inline-block;text-align: center;vertical-align: middle;">
+                      <p>{{ episode[3] }}</p>
+                  </div>
+                  <div style="display: inline-block;text-align: center;vertical-align: middle;">
+                    <p>{{ episode[4] }}</p>
+                  </div>
+                </div>
+              {% endfor %}
+            </div>
+            <button onclick="openAdd('podcastAddEp{{ podcast[0][0] }}')">Add Episode</button>
+
+            <div class="form-popup" id="podcastAddEp{{ podcast[0][0] }}">
+              <form class="form-container" method="post">
+                <h1>Add Podcast Episode</h1>
+
+                <label for="Title"><b>Title</b></label>
+                <input type="text" placeholder="Title" name="Title" required>
+
+                <label for="Description"><b>Description</b></label>
+                <input type="text" placeholder="Description" name="Description" required>
+
+                <input type="hidden" name="form_type" value="podcastAddEp">
+                <button type="submit" class="btn" name="podcastAddEp" value="{{ podcast[0][0] }}">Add Episode</button>
+                <button type="button" class="btn cancel" onclick="closeAdd('podcastAddEp{{ podcast[0][0] }}')">Close</button>
+              </form>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+
+      
+      
+    </div>
+
+  </div>
+
+  </body>
+
+  <style>
+      .userImg {
+          width: 300px;
+          height: 300px;
+          border-radius: 50%;
+          object-fit: contain;
+      }
+  </style>
+
+  <script>
+      const musDiv = document.getElementById("musica");
+      const container = document.getElementById("musicList");
+      for (let i = 0; i < 5; i++) {
+          const newMusDiv = musDiv.cloneNode(true);
+          container.appendChild(newMusDiv);
+      }
+
+  function openForm() {
+    document.getElementById("myForm").style.display = "flex";
+  }
+
+  function closeForm() {
+    document.getElementById("myForm").style.display = "none";
+  }
+
+  function openAlbum() {
+    document.getElementById("album.popup").style.display = "flex";
+  }
+
+  function closeAlbum() {
+    document.getElementById("album.popup").style.display = "none";
+  }
+
+  function openPlaylist() {
+    document.getElementById("myPlaylist").style.display = "flex";
+  }
+
+  function closePlaylist() {
+    document.getElementById("myPlaylist").style.display = "none";
+  }
+
+  function openPodcast() {
+    document.getElementById("myPodcast").style.display = "flex";
+  }
+
+  function closePodcast() {
+    document.getElementById("myPodcast").style.display = "none";
+  }
+
+  function openAdd(id) {
+    document.getElementById(id).style.display = "flex";
+  }
+  
+  var select = document.getElementById("mySelect");
+    for (var i = 1; i <= 10; i++) {
+      var option = document.createElement("option");
+      option.value = i;
+      option.text = "Option " + i;
+      select.appendChild(option);
+    }
+
+    var select = document.getElementById("myMusic");
+    for (var i = 1; i <= 10; i++) {
+      var option = document.createElement("option");
+      option.value = i;
+      option.text = "Option " + i;
+      select.appendChild(option);
+    }
+
+    function createNewDropdown() {
+  var l=document.getElementById("dropdowns")
+  var newSelect = document.createElement("select");
+  for (var i = 1; i <= 10; i++) {
+    var option = document.createElement("option");
+    option.value = i;
+    option.text = "Option " + i;
+    newSelect.appendChild(option);
+  }
+  newSelect.addEventListener("change", function() {
+    createNewDropdown();
+  });
+  l.appendChild(newSelect);
+}
+
+// Update the existing "myMusic" dropdown event listener
+var select = document.getElementById("myMusic");
+select.addEventListener("change", function() {
+  createNewDropdown();
+});
+
+// Populate the existing "myMusic" dropdown
+for (var i = 1; i <= 10; i++) {
+  var option = document.createElement("option");
+  option.value = i;
+  option.text = "Option " + i;
+  select.appendChild(option);
+}
+    
+  </script>
+
+
+
+
+
+
+  </html>
