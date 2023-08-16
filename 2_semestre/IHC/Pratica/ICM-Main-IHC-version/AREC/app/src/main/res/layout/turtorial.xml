@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.arec.Turtorial">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/event_title"
+            android:layout_width="wrap_content"
+            android:layout_height="51dp"
+            android:fontFamily="@font/roboto"
+            android:layout_centerHorizontal="true"
+            android:text="@string/how_it_works"
+            android:textColor="@color/black"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:layout_marginTop="70dp"
+            />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:text="Create Event"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:layout_below="@id/event_title"
+            android:textStyle="bold"
+            />
+
+        <TextView
+            android:id="@+id/how_it_works"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto"
+            android:text="@string/create_tut"
+            android:textSize="16sp"
+            android:layout_below="@id/textView2"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"/>
+
+        <ImageView
+            android:id="@+id/logoaskloc"
+            android:layout_width="95dp"
+            android:layout_height="135dp"
+            app:srcCompat="@drawable/ic_add"
+            android:layout_toRightOf="@id/how_it_works"
+            android:layout_below="@id/event_title"/>
+
+        <TextView
+            android:id="@+id/enter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:text="@string/enter_event"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:layout_below="@id/how_it_works"
+            android:textStyle="bold"
+            />
+
+        <TextView
+            android:id="@+id/enter_text"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto"
+            android:text="@string/enter_tut"
+            android:textSize="16sp"
+            android:layout_below="@id/enter"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"/>
+
+        <ImageView
+            android:id="@+id/loc"
+            android:layout_width="95dp"
+            android:layout_height="135dp"
+            app:srcCompat="@drawable/_812734"
+            android:layout_toRightOf="@id/enter_text"
+            android:layout_below="@id/how_it_works"/>
+
+        <TextView
+            android:id="@+id/outro"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:text="List of Events"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:layout_below="@id/enter_text"
+            android:textStyle="bold"
+            />
+
+        <TextView
+            android:id="@+id/outro_text"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto"
+            android:text="Press This icon to be able to see a list of all the events"
+            android:textSize="16sp"
+            android:layout_below="@id/outro"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"/>
+
+        <ImageView
+            android:id="@+id/outroimg"
+            android:layout_width="95dp"
+            android:layout_height="135dp"
+            app:srcCompat="@drawable/ic_list"
+            android:layout_toRightOf="@id/outro_text"
+            android:layout_below="@id/enter_text"/>
+
+
+        <Button
+            android:id="@+id/but_join"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_bg"
+            android:text="@string/continue_app"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            app:backgroundTint="@null"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/outro_text"
+            android:layout_marginTop="50dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"/>
+    </RelativeLayout>
+</layout>

@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation"
+    app:startDestination="@id/login">
+
+    <fragment
+        android:id="@+id/login"
+        android:name="com.example.arec.Login"
+        android:label="login"
+        tools:layout="@layout/login" >
+        <action
+            android:id="@+id/action_login_to_register"
+            app:destination="@id/register"
+            app:popUpTo="@id/login"
+            app:popUpToInclusive="false" />
+        <action
+            android:id="@+id/action_login_to_OTP"
+            app:destination="@id/OTP"
+            app:popUpTo="@id/login"
+            app:popUpToInclusive="false" />
+        <action
+            android:id="@+id/action_login_to_maps"
+            app:destination="@id/maps"
+            app:popUpTo="@id/login"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/register"
+        android:name="com.example.arec.Register"
+        android:label="register"
+        tools:layout="@layout/register" >
+        <action
+            android:id="@+id/action_register_to_OTP"
+            app:destination="@id/OTP"
+            app:popUpTo="@id/register"
+            app:popUpToInclusive="false" />
+    </fragment>
+    <fragment
+        android:id="@+id/maps"
+        android:name="com.example.arec.MapsActivity"
+        android:label="activity_maps"
+        tools:layout="@layout/activity_maps" >
+        <action
+            android:id="@+id/action_mapsFragment_to_eventDescription"
+            app:destination="@id/eventDescription"
+            app:popUpTo="@id/maps"
+            app:popUpToInclusive="false" />
+        <action
+            android:id="@+id/action_mapsFragment_to_createEvent"
+            app:destination="@id/createEvent"
+            app:popUpTo="@id/maps"
+            app:popUpToInclusive="false" />
+    </fragment>
+    <fragment
+        android:id="@+id/eventDescription"
+        android:name="com.example.arec.EventDescription"
+        android:label="event_decription"
+        tools:layout="@layout/event_decription" >
+        <action
+            android:id="@+id/action_eventDescription_to_profileFragment"
+            app:destination="@id/profile"
+            app:popUpTo="@id/maps"
+            app:popUpToInclusive="false" />
+        <action
+            android:id="@+id/action_eventDescription_to_mapsFragment"
+            app:destination="@id/maps" />
+    </fragment>
+    <fragment
+        android:id="@+id/createEvent"
+        android:name="com.example.arec.CreateEvent"
+        android:label="create_event"
+        tools:layout="@layout/create_event" >
+        <action
+            android:id="@+id/action_createEvent_to_mapsFragment"
+            app:destination="@id/maps" />
+    </fragment>
+    <fragment
+        android:id="@+id/profile"
+        android:name="com.example.arec.Profile"
+        android:label="Profile" >
+        <action
+            android:id="@+id/action_profileFragment_to_editProfile"
+            app:destination="@id/editProfile"
+            app:popUpTo="@id/profile"
+            app:popUpToInclusive="false" />
+        <action
+            android:id="@+id/action_profile_to_login"
+            app:destination="@id/login" />
+    </fragment>
+    <fragment
+        android:id="@+id/editProfile"
+        android:name="com.example.arec.EditProfile"
+        android:label="edit_profile"
+        tools:layout="@layout/edit_profile" >
+        <action
+            android:id="@+id/action_editProfile_to_profileFragment"
+            app:destination="@id/profile"
+            app:popUpTo="@id/maps"
+            app:popUpToInclusive="false" />
+        <action
+            android:id="@+id/action_editProfile_to_login"
+            app:destination="@id/login" />
+    </fragment>
+    <fragment
+        android:id="@+id/OTP"
+        android:name="com.example.arec.OTP"
+        android:label="otp"
+        tools:layout="@layout/otp" >
+        <action
+            android:id="@+id/action_OTP_to_mapsFragment"
+            app:destination="@id/maps"
+            app:popUpTo="@id/login"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/users"
+        android:name="com.example.arec.UsersActivity"
+        android:label="activity_users"
+        tools:layout="@layout/users" >
+        <action
+            android:id="@+id/action_usersActivity_to_chatActivity"
+            app:destination="@id/chatActivity"
+            app:popUpTo="@id/users"
+            app:popUpToInclusive="false" />
+    </fragment>
+    <fragment
+        android:id="@+id/chatActivity"
+        android:name="com.example.arec.Chat"
+        android:label="activity_chat"
+        tools:layout="@layout/activity_chat" >
+        <action
+            android:id="@+id/action_chatActivity_to_usersActivity"
+            app:destination="@id/users"
+            app:popUpTo="@id/chatActivity"
+            app:popUpToInclusive="true" />
+    </fragment>
+</navigation>

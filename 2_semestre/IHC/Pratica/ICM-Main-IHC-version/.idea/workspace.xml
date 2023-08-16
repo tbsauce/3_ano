@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="NONE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="dce0c46b-74e6-4573-941f-e3888bcdafc3" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/AREC/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/AREC/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AREC/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/AREC/app/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AREC/app/google-services.json" beforeDir="false" afterPath="$PROJECT_DIR$/AREC/app/google-services.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AREC/app/proguard-rules.pro" beforeDir="false" afterPath="$PROJECT_DIR$/AREC/app/proguard-rules.pro" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AREC/app/src/androidTest/java/com/example/arec/ExampleInstrumentedTest.kt" beforeDir="false" afterPath="$PROJECT_DIR$/AREC/app/src/androidTest/java/com/example/arec/ExampleInstrumentedTest.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AREC/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/AREC/app/src/main/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AREC/app/src/main/java/com/example/arec/Chat.kt" beforeDir="false" afterPath="$PROJECT_DIR$/AREC/app/src/main/java/com/example/arec/Chat.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AREC/app/src/main/java/com/example/arec/CreateEvent.kt" beforeDir="false" afterPath="$PROJECT_DIR$/AREC/app/src/main/java/com/example/arec/CreateEvent.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AREC/app/src/main/java/com/example/arec/EventDescription.kt" beforeDir="false" afterPath="$PROJECT_DIR$/AREC/app/src/main/java/com/example/arec/EventDescription.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AREC/app/src/main/java/com/example/arec/Login.kt" beforeDir="false" afterPath="$PROJECT_DIR$/AREC/app/src/main/java/com/example/arec/Login.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AREC/app/src/main/java/com/example/arec/MainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/AREC/app/src/main/java/com/example/arec/MainActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AREC/app/src/main/java/com/example/arec/MapsActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/AREC/app/src/main/java/com/example/arec/MapsActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AREC/app/src/main/java/com/example/arec/OTP.kt" beforeDir="false" afterPath="$PROJECT_DIR$/AREC/app/src/main/java/com/example/arec/OTP.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AREC/app/src/main/java/com/example/arec/Register.kt" beforeDir="false" afterPath="$PROJECT_DIR$/AREC/app/src/main/java/com/example/arec/Register.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AREC/app/src/main/java/com/example/arec/UsersActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/AREC/app/src/main/java/com/example/arec/UsersActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AREC/app/src/main/java/com/example/arec/adapter/MessageAdapter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/AREC/app/src/main/java/com/example/arec/adapter/MessageAdapter.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AREC/app/src/main/java/com/example/arec/adapter/UserAdapter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/AREC/app/src/main/java/com/example/arec/adapter/UserAdapter.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AREC/app/src/main/java/com/example/arec/model/Message.kt" beforeDir="false" afterPath="$PROJECT_DIR$/AREC/app/src/main/java/com/example/arec/model/Message.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AREC/app/src/main/java/com/example/arec/model/User.kt" beforeDir="false" afterPath="$PROJECT_DIR$/AREC/app/src/main/java/com/example/arec/model/User.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AREC/app/src/main/res/drawable/background_chat_input.xml" beforeDir="false" afterPath="$PROJECT_DIR$/AREC/app/src/main/res/drawable/background_chat_input.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AREC/app/src/main/res/drawable/background_content_top.xml" beforeDir="false" afterPath="$PROJECT_DIR$/AREC/app/src/main/res/drawable/background_content_top.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AREC/app/src/main/res/drawable/background_shape.xml" beforeDir="false" afterPath="$PROJECT_DIR$/AREC/app/src/main/res/drawable/background_shape.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AREC/app/src/main/res/drawable/baseline_attachment_24.xml" beforeDir="false" afterPath="$PROJECT_DIR$/AREC/app/src/main/res/drawable/baseline_attachment_24.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AREC/app/src/main/res/drawable/baseline_camera.xml" beforeDir="false" afterPath="$PROJECT_DIR$/AREC/app/src/main/res/drawable/baseline_camera.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AREC/app/src/main/res/drawable/baseline_send.xml" beforeDir="false" afterPath="$PROJECT_DIR$/AREC/app/src/main/res/drawable/baseline_send.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AREC/app/src/main/res/drawable/baseline_send_24.xml" beforeDir="false" afterPath="$PROJECT_DIR$/AREC/app/src/main/res/drawable/baseline_send_24.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AREC/app/src/main/res/drawable/bottom_shape.xml" beforeDir="false" afterPath="$PROJECT_DIR$/AREC/app/src/main/res/drawable/bottom_shape.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AREC/app/src/main/res/drawable/btn_background.xml" beforeDir="false" afterPath="$PROJECT_DIR$/AREC/app/src/main/res/drawable/btn_background.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AREC/app/src/main/res/drawable/button_bg.xml" beforeDir="false" afterPath="$PROJECT_DIR$/AREC/app/src/main/res/drawable/button_bg.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AREC/app/src/main/res/drawable/delete_layout.xml" beforeDir="false" afterPath="$PROJECT_DIR$/AREC/app/src/main/res/drawable/delete_layout.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AREC/app/src/main/res/drawable/edit_text_bg.xml" beforeDir="false" afterPath="$PROJECT_DIR$/AREC/app/src/main/res/drawable/edit_text_bg.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AREC/app/src/main/res/drawable/edt_background.xml" beforeDir="false" afterPath="$PROJECT_DIR$/AREC/app/src/main/res/drawable/edt_background.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AREC/app/src/main/res/drawable/ic_add.xml" beforeDir="false" afterPath="$PROJECT_DIR$/AREC/app/src/main/res/drawable/ic_add.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AREC/app/src/main/res/drawable/ic_back.xml" beforeDir="false" afterPath="$PROJECT_DIR$/AREC/app/src/main/res/drawable/ic_back.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AREC/app/src/main/res/drawable/ic_backspace_24.xml" beforeDir="false" afterPath="$PROJECT_DIR$/AREC/app/src/main/res/drawable/ic_backspace_24.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AREC/app/src/main/res/drawable/ic_chat.xml" beforeDir="false" afterPath="$PROJECT_DIR$/AREC/app/src/main/res/drawable/ic_chat.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AREC/app/src/main/res/drawable/ic_info.xml" beforeDir="false" afterPath="$PROJECT_DIR$/AREC/app/src/main/res/drawable/ic_info.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AREC/app/src/main/res/drawable/ic_launcher_background.xml" beforeDir="false" afterPath="$PROJECT_DIR$/AREC/app/src/main/res/drawable/ic_launcher_background.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AREC/app/src/main/res/drawable/ic_map.xml" beforeDir="false" afterPath="$PROJECT_DIR$/AREC/app/src/main/res/drawable/ic_map.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AREC/app/src/main/res/drawable/ic_person.xml" beforeDir="false" afterPath="$PROJECT_DIR$/AREC/app/src/main/res/drawable/ic_person.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AREC/app/src/main/res/drawable/ic_person_map.xml" beforeDir="false" afterPath="$PROJECT_DIR$/AREC/app/src/main/res/drawable/ic_person_map.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AREC/app/src/main/res/drawable/ic_send.xml" beforeDir="false" afterPath="$PROJECT_DIR$/AREC/app/src/main/res/drawable/ic_send.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AREC/app/src/main/res/drawable/message_box_background.xml" beforeDir="false" afterPath="$PROJECT_DIR$/AREC/app/src/main/res/drawable/message_box_background.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AREC/app/src/main/res/drawable/receive_drawable.xml" beforeDir="false" afterPath="$PROJECT_DIR$/AREC/app/src/main/res/drawable/receive_drawable.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AREC/app/src/main/res/drawable/send_drawable.xml" beforeDir="false" afterPath="$PROJECT_DIR$/AREC/app/src/main/res/drawable/send_drawable.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AREC/app/src/main/res/font-v26/font.xml" beforeDir="false" afterPath="$PROJECT_DIR$/AREC/app/src/main/res/font-v26/font.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AREC/app/src/main/res/font/font.xml" beforeDir="false" afterPath="$PROJECT_DIR$/AREC/app/src/main/res/font/font.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AREC/app/src/main/res/layout/activity_main.xml" beforeDir="false" afterPath="$PROJECT_DIR$/AREC/app/src/main/res/layout/activity_main.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AREC/app/src/main/res/layout/activity_maps.xml" beforeDir="false" afterPath="$PROJECT_DIR$/AREC/app/src/main/res/layout/activity_maps.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AREC/app/src/main/res/layout/activity_setup_profile.xml" beforeDir="false" afterPath="$PROJECT_DIR$/AREC/app/src/main/res/layout/activity_setup_profile.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AREC/app/src/main/res/layout/ask_loc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/AREC/app/src/main/res/layout/ask_loc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AREC/app/src/main/res/layout/chat.xml" beforeDir="false" afterPath="$PROJECT_DIR$/AREC/app/src/main/res/layout/chat.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AREC/app/src/main/res/layout/delete_layout.xml" beforeDir="false" afterPath="$PROJECT_DIR$/AREC/app/src/main/res/layout/delete_layout.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AREC/app/src/main/res/layout/edit_profile.xml" beforeDir="false" afterPath="$PROJECT_DIR$/AREC/app/src/main/res/layout/edit_profile.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AREC/app/src/main/res/layout/item_profile.xml" beforeDir="false" afterPath="$PROJECT_DIR$/AREC/app/src/main/res/layout/item_profile.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AREC/app/src/main/res/layout/login.xml" beforeDir="false" afterPath="$PROJECT_DIR$/AREC/app/src/main/res/layout/login.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AREC/app/src/main/res/layout/otp.xml" beforeDir="false" afterPath="$PROJECT_DIR$/AREC/app/src/main/res/layout/otp.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AREC/app/src/main/res/layout/received.xml" beforeDir="false" afterPath="$PROJECT_DIR$/AREC/app/src/main/res/layout/received.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AREC/app/src/main/res/layout/register.xml" beforeDir="false" afterPath="$PROJECT_DIR$/AREC/app/src/main/res/layout/register.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AREC/app/src/main/res/layout/sent.xml" beforeDir="false" afterPath="$PROJECT_DIR$/AREC/app/src/main/res/layout/sent.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AREC/app/src/main/res/layout/users.xml" beforeDir="false" afterPath="$PROJECT_DIR$/AREC/app/src/main/res/layout/users.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AREC/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" beforeDir="false" afterPath="$PROJECT_DIR$/AREC/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AREC/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" beforeDir="false" afterPath="$PROJECT_DIR$/AREC/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AREC/app/src/main/res/navigation/navigation.xml" beforeDir="false" afterPath="$PROJECT_DIR$/AREC/app/src/main/res/navigation/navigation.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AREC/app/src/main/res/values-night/themes.xml" beforeDir="false" afterPath="$PROJECT_DIR$/AREC/app/src/main/res/values-night/themes.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AREC/app/src/main/res/values/colors.xml" beforeDir="false" afterPath="$PROJECT_DIR$/AREC/app/src/main/res/values/colors.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AREC/app/src/main/res/values/dimens.xml" beforeDir="false" afterPath="$PROJECT_DIR$/AREC/app/src/main/res/values/dimens.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AREC/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/AREC/app/src/main/res/values/strings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AREC/app/src/main/res/values/themes.xml" beforeDir="false" afterPath="$PROJECT_DIR$/AREC/app/src/main/res/values/themes.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AREC/app/src/main/res/xml/backup_rules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/AREC/app/src/main/res/xml/backup_rules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AREC/app/src/main/res/xml/data_extraction_rules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/AREC/app/src/main/res/xml/data_extraction_rules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AREC/app/src/test/java/com/example/arec/ExampleUnitTest.kt" beforeDir="false" afterPath="$PROJECT_DIR$/AREC/app/src/test/java/com/example/arec/ExampleUnitTest.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AREC/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/AREC/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AREC/gradle.properties" beforeDir="false" afterPath="$PROJECT_DIR$/AREC/gradle.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AREC/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/AREC/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AREC/gradlew" beforeDir="false" afterPath="$PROJECT_DIR$/AREC/gradlew" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AREC/gradlew.bat" beforeDir="false" afterPath="$PROJECT_DIR$/AREC/gradlew.bat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AREC/settings.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/AREC/settings.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2Oc83EnQSQIQAmjlCzKPnivHjeM" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "cidr.known.project.marker": "true",
+    "last_opened_file_path": "C:/Users/ricardo/Desktop/Uni/2sem/ICM/Proj/ICM-Main/AREC"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="dce0c46b-74e6-4573-941f-e3888bcdafc3" name="Changes" comment="" />
+      <created>1681848308451</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1681848308451</updated>
+    </task>
+    <servers />
+  </component>
+</project>

@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.arec.CreateEvent">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/create_event"
+            android:layout_width="0dp"
+            android:layout_height="51dp"
+            android:fontFamily="@font/roboto"
+            android:gravity="center"
+            android:text="@string/create_event"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.044" />
+
+        <EditText
+            android:id="@+id/event_name"
+            android:layout_width="325dp"
+            android:layout_height="45dp"
+
+            android:layout_marginTop="8dp"
+            android:autofillHints="Name"
+
+
+            android:background="@drawable/edt_background"
+            android:hint="@string/event_name"
+            android:inputType="text"
+            android:paddingLeft="20sp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+
+
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/create_event"
+            app:layout_constraintVertical_bias="0.058" />
+
+
+        <TextView
+            android:id="@+id/radius"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="50dp"
+            android:layout_marginBottom="12dp"
+            android:text="Radius"
+            app:layout_constraintBottom_toTopOf="@id/event_radius"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <SeekBar
+            android:id="@+id/event_radius"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="100dp"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
+            android:progressTint="@color/pink"
+            android:thumbTint="@color/pink"
+            android:max="5000"
+            android:min="100"
+
+            app:layout_constraintTop_toBottomOf="@id/event_name"
+            android:progress="2000" />
+
+        <TextView
+            android:id="@+id/duration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:text="Duration"
+            android:layout_marginStart="50dp"
+            app:layout_constraintBottom_toTopOf="@id/event_duration"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <SeekBar
+            android:id="@+id/event_duration"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/event_radius"
+            android:layout_marginTop="100dp"
+            android:max="100"
+            android:min="1"
+            android:progress="30"
+            android:progressTint="@color/pink"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
+            android:thumbTint="@color/pink"
+            app:layout_constraintTop_toBottomOf="@id/event_radius"
+            tools:layout_editor_absoluteX="50dp" />
+
+        <TextView
+            android:id="@+id/participants"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:text="Max number of Participants"
+            app:layout_constraintBottom_toTopOf="@id/event_participants"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="50dp"/>
+
+        <SeekBar
+            android:id="@+id/event_participants"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/event_radius"
+            android:layout_marginTop="100dp"
+            android:max="200"
+            android:min="1"
+            android:progress="30"
+            android:progressTint="@color/pink"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
+            android:thumbTint="@color/pink"
+            app:layout_constraintTop_toBottomOf="@id/event_duration"
+            tools:layout_editor_absoluteX="50dp" />
+
+
+
+
+        <Button
+            android:id="@+id/but_create_event"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:background="@drawable/button_bg"
+            android:text="@string/create"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            app:backgroundTint="@null"
+            app:layout_constraintBaseline_toBottomOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.512"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/event_participants"
+            app:layout_constraintWidth_percent=".8" />
+
+
+        <TextView
+            android:id="@+id/radius_explained"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="The radius that your event will be, how distant can a person be to join the event"
+            android:textSize="10dp"
+            android:layout_marginStart="50dp"
+            app:layout_constraintBottom_toTopOf="@id/event_radius"
+            app:layout_constraintStart_toStartOf="parent" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
